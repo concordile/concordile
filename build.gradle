@@ -14,7 +14,8 @@
  * limitations under the License.
  */
 
-rootProject.name = 'concordile'
+plugins {
+    id 'base'
+}
 
-include 'concordile-broker'
-include 'concordile-broker-api'
+group = 'io.github.concordile'

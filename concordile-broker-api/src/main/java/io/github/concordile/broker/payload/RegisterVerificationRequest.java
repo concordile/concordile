@@ -14,7 +14,38 @@
  * limitations under the License.
  */
 
-rootProject.name = 'concordile'
+package io.github.concordile.broker.payload;
 
-include 'concordile-broker'
-include 'concordile-broker-api'
+import java.util.List;
+
+public record RegisterVerificationRequest(
+        Producer producer,
+        List<Consumer> consumers
+) {
+
+    public record Producer(
+            String group,
+            String name,
+            String version
+    ) {
+    }
+
+    public record Consumer(
+            String name,
+            List<ContractFile> files
+    ) {
+    }
+
+    public record ContractFile(
+            String path,
+            List<Contract> contracts
+    ) {
+    }
+
+    public record Contract(
+            String name,
+            String status
+    ) {
+    }
+
+}
