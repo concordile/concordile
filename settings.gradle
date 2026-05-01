@@ -22,3 +22,6 @@ include 'concordile-broker-api'
 include 'concordile-spring'
 include 'concordile-spring:concordile-spring-cloud-contract-api'
 include 'concordile-spring:concordile-spring-cloud-contract-extension'
+
+include 'concordile-tools'
+include 'concordile-tools:concordile-gradle-plugin'
