@@ -14,11 +14,30 @@
  * limitations under the License.
  */
 
-rootProject.name = 'concordile'
+plugins {
+    id 'java-library'
+    id 'maven-publish'
+}
 
-include 'concordile-broker'
-include 'concordile-broker-api'
+version = '0.1.0-SNAPSHOT'
+description = 'Concordile Spring Cloud Contract API'
 
-include 'concordile-spring'
-include 'concordile-spring:concordile-spring-cloud-contract-api'
-include 'concordile-spring:concordile-spring-cloud-contract-extension'
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+    withSourcesJar()
+    withJavadocJar()
+}
+
+repositories {
+    mavenCentral()
+}
+
+publishing {
+    publications {
+        springApiLib(MavenPublication) {
+            from components.java
+        }
+    }
+}
