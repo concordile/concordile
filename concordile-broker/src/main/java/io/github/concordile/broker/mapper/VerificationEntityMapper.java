@@ -14,22 +14,21 @@
  * limitations under the License.
  */
 
-package io.github.concordile.broker.repository;
+package io.github.concordile.broker.mapper;
 
-import io.github.concordile.broker.entity.ContractEntity;
-import org.springframework.data.repository.ListCrudRepository;
+import io.github.concordile.broker.config.MapStructConfig;
+import io.github.concordile.broker.domain.Verification;
+import io.github.concordile.broker.entity.VerificationEntity;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 
-import java.util.Optional;
-import java.util.UUID;
+@Mapper(config = MapStructConfig.class)
+public interface VerificationEntityMapper
+        extends EntityMapper<VerificationEntity, Verification> {
 
-public interface ContractRepository
-        extends ListCrudRepository<ContractEntity, UUID> {
-
-    Optional<ContractEntity> findByProducerIdAndConsumerIdAndPathAndName(
-            UUID producerId,
-            UUID consumerId,
-            String path,
-            String name
-    );
+    @Override
+    @Mapping(target = "results", ignore = true)
+    @Mapping(target = "withResults", ignore = true)
+    Verification mapEntity2Domain(VerificationEntity entity);
 
 }

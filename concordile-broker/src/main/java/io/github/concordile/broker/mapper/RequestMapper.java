@@ -14,38 +14,10 @@
  * limitations under the License.
  */
 
-package io.github.concordile.broker.payload;
+package io.github.concordile.broker.mapper;
 
-import java.util.List;
+public interface RequestMapper<REQUEST, COMMAND> {
 
-public record RegisterVerificationRequest(
-        Producer producer,
-        List<Consumer> consumers
-) {
-
-    public record Producer(
-            String group,
-            String name,
-            String version
-    ) {
-    }
-
-    public record Consumer(
-            String name,
-            List<ContractFile> files
-    ) {
-    }
-
-    public record ContractFile(
-            String path,
-            List<Contract> contracts
-    ) {
-    }
-
-    public record Contract(
-            String name,
-            String status
-    ) {
-    }
+    COMMAND mapRequest2Command(REQUEST request);
 
 }

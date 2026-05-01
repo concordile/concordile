@@ -14,22 +14,10 @@
  * limitations under the License.
  */
 
-package io.github.concordile.broker.repository;
+package io.github.concordile.broker.mapper;
 
-import io.github.concordile.broker.entity.ContractEntity;
-import org.springframework.data.repository.ListCrudRepository;
+public interface EntityMapper<ENTITY, DOMAIN> {
 
-import java.util.Optional;
-import java.util.UUID;
-
-public interface ContractRepository
-        extends ListCrudRepository<ContractEntity, UUID> {
-
-    Optional<ContractEntity> findByProducerIdAndConsumerIdAndPathAndName(
-            UUID producerId,
-            UUID consumerId,
-            String path,
-            String name
-    );
+    DOMAIN mapEntity2Domain(ENTITY entity);
 
 }

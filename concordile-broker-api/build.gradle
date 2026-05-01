@@ -34,6 +34,11 @@ repositories {
     mavenCentral()
 }
 
+dependencies {
+    api "org.jspecify:jspecify:${jspecifyVersion}"
+    api "jakarta.validation:jakarta.validation-api:${jakartaValidationVersion}"
+}
+
 publishing {
     publications {
         brokerApiLib(MavenPublication) {

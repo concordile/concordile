@@ -14,22 +14,14 @@
  * limitations under the License.
  */
 
-package io.github.concordile.broker.repository;
+package io.github.concordile.broker.service;
 
-import io.github.concordile.broker.entity.ContractEntity;
-import org.springframework.data.repository.ListCrudRepository;
+import io.github.concordile.broker.entity.ApplicationEntity;
 
-import java.util.Optional;
-import java.util.UUID;
+public interface ApplicationService {
 
-public interface ContractRepository
-        extends ListCrudRepository<ContractEntity, UUID> {
+    ApplicationEntity findOrCreate(String groupId, String name);
 
-    Optional<ContractEntity> findByProducerIdAndConsumerIdAndPathAndName(
-            UUID producerId,
-            UUID consumerId,
-            String path,
-            String name
-    );
+    ApplicationEntity create(String groupId, String name);
 
 }

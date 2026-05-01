@@ -14,22 +14,16 @@
  * limitations under the License.
  */
 
-package io.github.concordile.broker.repository;
+package io.github.concordile.broker.domain;
 
-import io.github.concordile.broker.entity.ContractEntity;
-import org.springframework.data.repository.ListCrudRepository;
+import org.jspecify.annotations.Nullable;
 
-import java.util.Optional;
 import java.util.UUID;
 
-public interface ContractRepository
-        extends ListCrudRepository<ContractEntity, UUID> {
-
-    Optional<ContractEntity> findByProducerIdAndConsumerIdAndPathAndName(
-            UUID producerId,
-            UUID consumerId,
-            String path,
-            String name
-    );
-
+public record VerificationResult(
+        UUID id,
+        UUID contractId,
+        @Nullable String counterpartyVersion,
+        VerificationStatus status
+) {
 }
