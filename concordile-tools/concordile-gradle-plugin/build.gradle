@@ -37,7 +37,7 @@ repositories {
 
 dependencies {
     implementation project(':concordile-broker-api')
-    implementation project(':concordile-spring-cloud-contract:concordile-spring-cloud-contract-api')
+    implementation project(':concordile-spring:concordile-spring-cloud-contract-api')
     implementation "tools.jackson.core:jackson-databind:${jacksonVersion}"
 }
 
