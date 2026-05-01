@@ -16,8 +16,8 @@
 
 package io.github.concordile.broker.mapper;
 
-public interface RequestMapper<REQUEST, DOMAIN> {
+public interface RequestMapper<REQUEST, COMMAND> {
 
-    DOMAIN mapRequest2Domain(REQUEST request);
+    COMMAND mapRequest2Command(REQUEST request);
 
 }

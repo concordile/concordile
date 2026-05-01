@@ -30,6 +30,6 @@ public interface CreateVerificationRequestMapper
     @Mapping(target = "partyRole", source = "party.role")
     @Mapping(target = "party", source = "party.application")
     @Mapping(target = "partyVersion", source = "party.version")
-    CreateVerificationCommand mapRequest2Domain(CreateVerificationRequest request);
+    CreateVerificationCommand mapRequest2Command(CreateVerificationRequest request);
 
 }

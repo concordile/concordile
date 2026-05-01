@@ -39,7 +39,7 @@ public class VerificationController implements VerificationApi {
     public ResponseEntity<VerificationResponse> createVerification(
             CreateVerificationRequest request
     ) {
-        var command = createVerificationRequestMapper.mapRequest2Domain(request);
+        var command = createVerificationRequestMapper.mapRequest2Command(request);
         var verification = service.create(command);
         var response = verificationResponseMapper.mapDomain2Response(verification);
         var location = ServletUriComponentsBuilder.fromCurrentRequest()
