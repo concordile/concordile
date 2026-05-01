@@ -14,38 +14,17 @@
  * limitations under the License.
  */
 
-package io.github.concordile.broker.payload;
+package io.github.concordile.broker.api.v1;
 
 import java.util.List;
+import java.util.UUID;
 
-public record RegisterVerificationRequest(
-        Producer producer,
-        List<Consumer> consumers
+public record VerificationResponse(
+        UUID id,
+        VerificationPartyRole partyRole,
+        UUID partyId,
+        String partyVersion,
+        VerificationStatus status,
+        List<VerificationResultResponse> results
 ) {
-
-    public record Producer(
-            String group,
-            String name,
-            String version
-    ) {
-    }
-
-    public record Consumer(
-            String name,
-            List<ContractFile> files
-    ) {
-    }
-
-    public record ContractFile(
-            String path,
-            List<Contract> contracts
-    ) {
-    }
-
-    public record Contract(
-            String name,
-            String status
-    ) {
-    }
-
 }

@@ -14,35 +14,19 @@
  * limitations under the License.
  */
 
-plugins {
-    id 'java-library'
-    id 'maven-publish'
+package io.github.concordile.broker.mapper;
+
+import io.github.concordile.broker.api.v1.VerificationResponse;
+import io.github.concordile.broker.config.MapStructConfig;
+import io.github.concordile.broker.domain.Verification;
+import org.mapstruct.Mapper;
+
+@Mapper(config = MapStructConfig.class)
+public interface VerificationResponseMapper
+        extends ResponseMapper<Verification, VerificationResponse> {
+
+    @Override
+    VerificationResponse mapDomain2Response(Verification domain);
+
 }
 
-version = '0.1.0-SNAPSHOT'
-description = 'Concordile Broker API'
-
-java {
-    toolchain {
-        languageVersion = JavaLanguageVersion.of(17)
-    }
-    withSourcesJar()
-    withJavadocJar()
-}
-
-repositories {
-    mavenCentral()
-}
-
-dependencies {
-    api "org.jspecify:jspecify:${jspecifyVersion}"
-    api "jakarta.validation:jakarta.validation-api:${jakartaValidationVersion}"
-}
-
-publishing {
-    publications {
-        brokerApiLib(MavenPublication) {
-            from components.java
-        }
-    }
-}

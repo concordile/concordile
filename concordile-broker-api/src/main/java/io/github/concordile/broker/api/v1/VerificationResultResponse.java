@@ -14,35 +14,16 @@
  * limitations under the License.
  */
 
-plugins {
-    id 'java-library'
-    id 'maven-publish'
-}
+package io.github.concordile.broker.api.v1;
 
-version = '0.1.0-SNAPSHOT'
-description = 'Concordile Broker API'
+import org.jspecify.annotations.Nullable;
 
-java {
-    toolchain {
-        languageVersion = JavaLanguageVersion.of(17)
-    }
-    withSourcesJar()
-    withJavadocJar()
-}
+import java.util.UUID;
 
-repositories {
-    mavenCentral()
-}
-
-dependencies {
-    api "org.jspecify:jspecify:${jspecifyVersion}"
-    api "jakarta.validation:jakarta.validation-api:${jakartaValidationVersion}"
-}
-
-publishing {
-    publications {
-        brokerApiLib(MavenPublication) {
-            from components.java
-        }
-    }
+public record VerificationResultResponse(
+        UUID id,
+        UUID contractId,
+        @Nullable String counterpartyVersion,
+        VerificationStatus status
+) {
 }

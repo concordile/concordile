@@ -14,35 +14,10 @@
  * limitations under the License.
  */
 
-plugins {
-    id 'java-library'
-    id 'maven-publish'
-}
+package io.github.concordile.broker.mapper;
 
-version = '0.1.0-SNAPSHOT'
-description = 'Concordile Broker API'
+public interface RequestMapper<REQUEST, DOMAIN> {
 
-java {
-    toolchain {
-        languageVersion = JavaLanguageVersion.of(17)
-    }
-    withSourcesJar()
-    withJavadocJar()
-}
+    DOMAIN mapRequest2Domain(REQUEST request);
 
-repositories {
-    mavenCentral()
-}
-
-dependencies {
-    api "org.jspecify:jspecify:${jspecifyVersion}"
-    api "jakarta.validation:jakarta.validation-api:${jakartaValidationVersion}"
-}
-
-publishing {
-    publications {
-        brokerApiLib(MavenPublication) {
-            from components.java
-        }
-    }
 }
