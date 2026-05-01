@@ -18,4 +18,6 @@ plugins {
     id 'base'
 }
 
-group = 'io.github.concordile'
+allprojects {
+    group = 'io.github.concordile'
+}
