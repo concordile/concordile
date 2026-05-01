@@ -17,10 +17,11 @@
 package io.github.concordile.broker.repository;
 
 import io.github.concordile.broker.entity.VerificationResultEntity;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.ListCrudRepository;
 
 import java.util.UUID;
 
-public interface VerificationResultRepository extends CrudRepository<VerificationResultEntity, UUID> {
+public interface VerificationResultRepository
+        extends ListCrudRepository<VerificationResultEntity, UUID> {
 
 }
