@@ -39,7 +39,7 @@ import java.util.UUID;
 @Service
 @Transactional
 @RequiredArgsConstructor
-public class DefaultVerificationService implements VerificationService {
+class DefaultVerificationService implements VerificationService {
 
     private final ApplicationService applicationService;
     private final ContractService contractService;
@@ -55,16 +55,16 @@ public class DefaultVerificationService implements VerificationService {
         var application = command.party();
         var partyEntity = applicationService.findOrCreate(application.groupId(), application.name());
 
-        var verificationEntity = verificationRepository.save(VerificationEntity.builder()
+        var savedVerificationEntity = verificationRepository.save(VerificationEntity.builder()
                 .partyRole(command.partyRole().name())
                 .partyId(partyEntity.getId())
                 .partyVersion(command.partyVersion())
                 .status(resolveVerificationStatus(command).name())
                 .build());
 
-        var results = createResults(command, partyEntity, verificationEntity.getId());
+        var results = createResults(command, partyEntity, savedVerificationEntity.getId());
 
-        return verificationEntityMapper.mapEntity2Domain(verificationEntity)
+        return verificationEntityMapper.mapEntity2Domain(savedVerificationEntity)
                 .withResults(results);
     }
 

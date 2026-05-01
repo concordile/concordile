@@ -18,6 +18,7 @@ package io.github.concordile.broker.controller.v1;
 
 import io.github.concordile.broker.api.v1.CreateVerificationRequest;
 import io.github.concordile.broker.api.v1.VerificationResponse;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -28,7 +29,7 @@ public interface VerificationApi {
 
     @PostMapping
     ResponseEntity<VerificationResponse> createVerification(
-            @RequestBody CreateVerificationRequest request
+            @Valid @RequestBody CreateVerificationRequest request
     );
 
 }

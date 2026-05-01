@@ -25,12 +25,13 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional
 @RequiredArgsConstructor
-public class DefaultApplicationService implements ApplicationService {
+class DefaultApplicationService implements ApplicationService {
 
     private final ApplicationRepository applicationRepository;
 
     @Override
     public ApplicationEntity findOrCreate(String groupId, String name) {
+        // FIXME: duplicates
         return applicationRepository.findByGroupIdAndName(groupId, name)
                 .orElseGet(() -> create(groupId, name));
     }

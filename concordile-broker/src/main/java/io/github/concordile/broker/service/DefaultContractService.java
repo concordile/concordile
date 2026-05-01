@@ -27,7 +27,7 @@ import java.util.UUID;
 @Service
 @Transactional
 @RequiredArgsConstructor
-public class DefaultContractService implements ContractService {
+class DefaultContractService implements ContractService {
 
     private final ContractRepository contractRepository;
 
@@ -38,6 +38,7 @@ public class DefaultContractService implements ContractService {
             String path,
             String name
     ) {
+        // FIXME: duplicates
         return contractRepository.findByProducerIdAndConsumerIdAndPathAndName(
                         producerId,
                         consumerId,
