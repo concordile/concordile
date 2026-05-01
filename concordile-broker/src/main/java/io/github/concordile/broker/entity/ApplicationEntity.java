@@ -42,7 +42,7 @@ public class ApplicationEntity {
     private UUID id;
 
     @Version
-    private Integer version;
+    private Long version;
 
     @CreatedDate
     @Column("created_at")

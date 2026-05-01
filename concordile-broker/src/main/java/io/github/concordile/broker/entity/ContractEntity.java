@@ -42,7 +42,7 @@ public class ContractEntity {
     private UUID id;
 
     @Version
-    private Integer version;
+    private Long version;
 
     @CreatedDate
     @Column("created_at")
@@ -62,6 +62,7 @@ public class ContractEntity {
     private @Nullable UUID consumerId;
 
     private String path;
+
     private String name;
 
 }
