@@ -16,18 +16,12 @@
 
 package io.github.concordile.spring.cloud.contract.api;
 
-import org.jspecify.annotations.Nullable;
-
 import java.util.ArrayList;
 import java.util.List;
 
 public record ProducerContractContext(
-        @Nullable List<ContractFile> files
+        List<ContractFile> files
 ) {
-
-    public ProducerContractContext {
-        files = files == null ? List.of() : List.copyOf(files);
-    }
 
     public ProducerContractContext merge(ProducerContractContext other) {
         var mergedFiles = new ArrayList<ContractFile>();
@@ -40,13 +34,8 @@ public record ProducerContractContext(
             String consumerName,
             String path,
             String testClassName,
-            @Nullable List<Contract> contracts
+            List<Contract> contracts
     ) {
-
-        public ContractFile {
-            contracts = contracts == null ? List.of() : List.copyOf(contracts);
-        }
-
     }
 
     public record Contract(
