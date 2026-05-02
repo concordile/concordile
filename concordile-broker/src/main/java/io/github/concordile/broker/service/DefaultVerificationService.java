@@ -29,6 +29,7 @@ import io.github.concordile.broker.repository.VerificationRepository;
 import io.github.concordile.broker.repository.VerificationResultRepository;
 import io.github.concordile.broker.service.command.CreateVerificationCommand;
 import lombok.RequiredArgsConstructor;
+import org.jspecify.annotations.Nullable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -115,7 +116,7 @@ class DefaultVerificationService implements VerificationService {
             VerificationPartyRole partyRole,
             ApplicationEntity partyEntity,
             ApplicationEntity counterpartyEntity,
-            String counterpartyVersion,
+            @Nullable String counterpartyVersion,
             CreateVerificationCommand.ContractFile file,
             UUID verificationId
     ) {
@@ -142,7 +143,7 @@ class DefaultVerificationService implements VerificationService {
             VerificationPartyRole partyRole,
             ApplicationEntity partyEntity,
             ApplicationEntity counterpartyEntity,
-            String counterpartyVersion,
+            @Nullable String counterpartyVersion,
             String contractPath,
             CreateVerificationCommand.ContractResult contractResult,
             UUID verificationId

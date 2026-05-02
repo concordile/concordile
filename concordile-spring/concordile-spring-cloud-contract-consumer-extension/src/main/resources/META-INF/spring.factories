@@ -1,0 +1,5 @@
+org.springframework.test.context.TestExecutionListener=\
+  io.github.concordile.spring.cloud.contract.consumer.ConcordileConsumerStubUsageListener
+
+org.springframework.cloud.contract.verifier.dsl.wiremock.WireMockExtensions=\
+  io.github.concordile.spring.cloud.contract.consumer.ConcordileWireMockExtensions

@@ -20,7 +20,7 @@ plugins {
 }
 
 version = '0.1.0-SNAPSHOT'
-description = 'Concordile Spring Cloud Contract API'
+description = 'Concordile Spring Cloud Contract Producer Extension'
 
 java {
     toolchain {
@@ -36,11 +36,22 @@ repositories {
 
 dependencies {
     api "org.jspecify:jspecify:${jspecifyVersion}"
+    implementation project(':concordile-spring:concordile-spring-cloud-contract-api')
+    implementation "tools.jackson.core:jackson-databind:${jacksonVersion}"
+    compileOnly "org.springframework.cloud:spring-cloud-contract-verifier:${springCloudContractVersion}"
+    testImplementation "org.springframework.cloud:spring-cloud-contract-verifier:${springCloudContractVersion}"
+    testImplementation platform("org.junit:junit-bom:${junitVersion}")
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+test {
+    useJUnitPlatform()
 }
 
 publishing {
     publications {
-        springApiLib(MavenPublication) {
+        springExtLib(MavenPublication) {
             from components.java
         }
     }

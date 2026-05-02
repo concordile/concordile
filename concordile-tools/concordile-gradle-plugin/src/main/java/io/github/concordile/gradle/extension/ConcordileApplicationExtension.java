@@ -14,34 +14,29 @@
  * limitations under the License.
  */
 
-plugins {
-    id 'java-library'
-    id 'maven-publish'
-}
+package io.github.concordile.gradle.extension;
 
-version = '0.1.0-SNAPSHOT'
-description = 'Concordile Spring Cloud Contract API'
+import org.gradle.api.provider.Property;
 
-java {
-    toolchain {
-        languageVersion = JavaLanguageVersion.of(17)
+public interface ConcordileApplicationExtension {
+
+    Property<String> getGroupId();
+
+    Property<String> getName();
+
+    Property<String> getVersion();
+
+    @SuppressWarnings("unused")
+    default void groupId(String value) {
+        getGroupId().set(value);
     }
-    withSourcesJar()
-    withJavadocJar()
-}
 
-repositories {
-    mavenCentral()
-}
-
-dependencies {
-    api "org.jspecify:jspecify:${jspecifyVersion}"
-}
-
-publishing {
-    publications {
-        springApiLib(MavenPublication) {
-            from components.java
-        }
+    default void name(String value) {
+        getName().set(value);
     }
+
+    default void version(String value) {
+        getVersion().set(value);
+    }
+
 }

@@ -14,43 +14,41 @@
  * limitations under the License.
  */
 
-package io.github.concordile.broker.service.command;
+package io.github.concordile.gradle.model;
 
-import io.github.concordile.broker.domain.VerificationPartyRole;
-import io.github.concordile.broker.domain.VerificationStatus;
-import org.jspecify.annotations.Nullable;
+import io.github.concordile.broker.api.v1.VerificationPartyRole;
 
 import java.util.List;
 
-public record CreateVerificationCommand(
-        VerificationPartyRole partyRole,
-        ApplicationRef party,
-        String partyVersion,
+public record ProducerVerificationContext(
+        VerificationPartyRole role,
+        Application application,
+        String version,
         List<Counterparty> counterparties
 ) {
 
-    public record ApplicationRef(
+    public record Application(
             String groupId,
             String name
     ) {
     }
 
     public record Counterparty(
-            ApplicationRef application,
-            @Nullable String version,
+            Application application,
             List<ContractFile> files
     ) {
     }
 
     public record ContractFile(
             String path,
-            List<ContractResult> contracts
+            List<Contract> contracts
     ) {
     }
 
-    public record ContractResult(
+    public record Contract(
             String name,
-            VerificationStatus status
+            String testClassName,
+            String testMethodName
     ) {
     }
 

@@ -14,34 +14,13 @@
  * limitations under the License.
  */
 
-plugins {
-    id 'java-library'
-    id 'maven-publish'
-}
+package io.github.concordile.spring.cloud.contract.api;
 
-version = '0.1.0-SNAPSHOT'
-description = 'Concordile Spring Cloud Contract API'
+import java.util.List;
 
-java {
-    toolchain {
-        languageVersion = JavaLanguageVersion.of(17)
-    }
-    withSourcesJar()
-    withJavadocJar()
-}
-
-repositories {
-    mavenCentral()
-}
-
-dependencies {
-    api "org.jspecify:jspecify:${jspecifyVersion}"
-}
-
-publishing {
-    publications {
-        springApiLib(MavenPublication) {
-            from components.java
-        }
-    }
+public record ConsumerStubUsageContext(
+        String testClassName,
+        String testMethodName,
+        List<String> matchedMappingIds
+) {
 }

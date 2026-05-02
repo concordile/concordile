@@ -15,13 +15,12 @@
  */
 
 plugins {
-    id 'java-gradle-plugin'
+    id 'java-library'
     id 'maven-publish'
 }
 
-group = 'io.github.concordile.gradle'
 version = '0.1.0-SNAPSHOT'
-description = 'Concordile Gradle Plugin'
+description = 'Concordile Spring Cloud Contract Consumer Extension'
 
 java {
     toolchain {
@@ -37,42 +36,29 @@ repositories {
 
 dependencies {
     api "org.jspecify:jspecify:${jspecifyVersion}"
-    implementation project(':concordile-broker-api')
     implementation project(':concordile-spring:concordile-spring-cloud-contract-api')
     implementation "tools.jackson.core:jackson-databind:${jacksonVersion}"
+
+    compileOnly "org.springframework:spring-test"
+    compileOnly "org.springframework.cloud:spring-cloud-contract-verifier:${springCloudContractVersion}"
+    compileOnly "org.springframework.cloud:spring-cloud-contract-stub-runner:${springCloudContractVersion}"
+    testImplementation "org.springframework:spring-test"
+    testImplementation "org.springframework.cloud:spring-cloud-contract-verifier:${springCloudContractVersion}"
+    testImplementation "org.springframework.cloud:spring-cloud-contract-stub-runner:${springCloudContractVersion}"
+
+    testImplementation platform("org.junit:junit-bom:${junitVersion}")
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
 
-testing {
-    suites {
-        test {
-            useJUnitJupiter("${junitVersion}")
-        }
-
-        functionalTest(JvmTestSuite) {
-            dependencies {
-                implementation project()
-            }
-
-            targets {
-                all {
-                    testTask.configure { shouldRunAfter(test) }
-                }
-            }
-        }
-    }
+test {
+    useJUnitPlatform()
 }
 
-gradlePlugin {
-    plugins {
-        concordilePlugin {
-            id = 'io.github.concordile'
-            implementationClass = 'io.github.concordile.gradle.ConcordilePlugin'
+publishing {
+    publications {
+        springExtLib(MavenPublication) {
+            from components.java
         }
     }
-}
-
-gradlePlugin.testSourceSets.add(sourceSets.functionalTest)
-
-tasks.named('check') {
-    dependsOn(testing.suites.functionalTest)
 }

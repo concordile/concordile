@@ -14,34 +14,18 @@
  * limitations under the License.
  */
 
-plugins {
-    id 'java-library'
-    id 'maven-publish'
-}
+package io.github.concordile.spring.cloud.contract.consumer;
 
-version = '0.1.0-SNAPSHOT'
-description = 'Concordile Spring Cloud Contract API'
+import com.github.tomakehurst.wiremock.extension.Extension;
+import org.springframework.cloud.contract.verifier.dsl.wiremock.WireMockExtensions;
 
-java {
-    toolchain {
-        languageVersion = JavaLanguageVersion.of(17)
+import java.util.List;
+
+public final class ConcordileWireMockExtensions implements WireMockExtensions {
+
+    @Override
+    public List<Extension> extensions() {
+        return List.of(new ConcordileMatchedStubEventListener());
     }
-    withSourcesJar()
-    withJavadocJar()
-}
 
-repositories {
-    mavenCentral()
-}
-
-dependencies {
-    api "org.jspecify:jspecify:${jspecifyVersion}"
-}
-
-publishing {
-    publications {
-        springApiLib(MavenPublication) {
-            from components.java
-        }
-    }
 }
