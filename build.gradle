@@ -20,4 +20,5 @@ plugins {
 
 allprojects {
     group = 'io.github.concordile'
+    version = '0.1.0-SNAPSHOT'
 }

@@ -20,7 +20,6 @@ plugins {
 }
 
 group = 'io.github.concordile.gradle'
-version = '0.1.0-SNAPSHOT'
 description = 'Concordile Gradle Plugin'
 
 java {
