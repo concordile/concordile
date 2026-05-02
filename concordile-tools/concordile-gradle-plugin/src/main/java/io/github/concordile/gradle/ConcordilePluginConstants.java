@@ -27,13 +27,16 @@ public final class ConcordilePluginConstants {
     public static final String SPRING_CLOUD_CONTRACT_CONSUMER_EXTENSION_GAV = "io.github.concordile.spring:concordile-spring-cloud-contract-consumer-extension:0.1.0-SNAPSHOT";
     public static final String SPRING_CLOUD_CONTRACT_PRODUCER_EXTENSION_GAV = "io.github.concordile.spring:concordile-spring-cloud-contract-producer-extension:0.1.0-SNAPSHOT";
 
+    public static final String PREPARE_CONSUMER_VERIFICATION_CONTEXT_TASK_NAME = "prepareConcordileConsumerVerificationContext";
     public static final String PREPARE_PRODUCER_VERIFICATION_CONTEXT_TASK_NAME = "prepareConcordileProducerVerificationContext";
-
+    public static final String PUBLISH_CONSUMER_VERIFICATION_TASK_NAME = "publishConcordileConsumerVerification";
     public static final String PUBLISH_PRODUCER_VERIFICATION_TASK_NAME = "publishConcordileProducerVerification";
 
+    public static final String TEST_TASK_NAME = "test";
     public static final String GENERATE_CONTRACT_TESTS_TASK_NAME = "generateContractTests";
     public static final String CONTRACT_TEST_TASK_NAME = "contractTest";
 
+    public static final String CONSUMER_VERIFICATION_CONTEXT_FILE = "concordile/consumer-verification-context.json";
     public static final String PRODUCER_VERIFICATION_CONTEXT_FILE = "concordile/producer-verification-context.json";
 
     private ConcordilePluginConstants() {

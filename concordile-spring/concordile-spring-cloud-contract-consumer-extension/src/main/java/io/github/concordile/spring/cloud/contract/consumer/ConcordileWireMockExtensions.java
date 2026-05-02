@@ -14,7 +14,18 @@
  * limitations under the License.
  */
 
-@NullMarked
-package io.github.concordile.spring.cloud.contract.extension;
+package io.github.concordile.spring.cloud.contract.consumer;
 
-import org.jspecify.annotations.NullMarked;
+import com.github.tomakehurst.wiremock.extension.Extension;
+import org.springframework.cloud.contract.verifier.dsl.wiremock.WireMockExtensions;
+
+import java.util.List;
+
+public final class ConcordileWireMockExtensions implements WireMockExtensions {
+
+    @Override
+    public List<Extension> extensions() {
+        return List.of(new ConcordileMatchedStubEventListener());
+    }
+
+}

@@ -16,6 +16,7 @@
 
 package io.github.concordile.gradle;
 
+import io.github.concordile.gradle.config.ConsumerVerificationConfigurer;
 import io.github.concordile.gradle.config.ProducerVerificationConfigurer;
 import io.github.concordile.gradle.extension.ConcordileExtension;
 import org.gradle.api.Plugin;
@@ -34,6 +35,7 @@ public class ConcordilePlugin implements Plugin<Project> {
                 project
         );
 
+        new ConsumerVerificationConfigurer(project, extension).configure();
         new ProducerVerificationConfigurer(project, extension).configure();
     }
 

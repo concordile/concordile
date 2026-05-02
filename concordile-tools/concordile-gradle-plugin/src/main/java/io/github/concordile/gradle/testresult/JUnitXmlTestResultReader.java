@@ -80,8 +80,10 @@ public final class JUnitXmlTestResultReader {
     }
 
     private String normalizeMethodName(String methodName) {
-        if (methodName.endsWith("()")) {
-            return methodName.substring(0, methodName.length() - 2);
+        var parameterStartIndex = methodName.indexOf('(');
+
+        if (parameterStartIndex != -1) {
+            return methodName.substring(0, parameterStartIndex);
         }
 
         return methodName;
