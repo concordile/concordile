@@ -20,12 +20,13 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
+import org.jspecify.annotations.Nullable;
 
 import java.util.List;
 
 public record CreateVerificationRequest(
         @NotNull @Valid Party party,
-        @NotEmpty @Valid List<Counterparty> counterparties
+        @NotEmpty List<@Valid Counterparty> counterparties
 ) {
 
     public record Party(
@@ -37,8 +38,8 @@ public record CreateVerificationRequest(
 
     public record Counterparty(
             @NotNull @Valid Application application,
-            @NotBlank String version,
-            @NotEmpty @Valid List<ContractFile> files
+            @Nullable String version,
+            @NotEmpty List<@Valid ContractFile> files
     ) {
     }
 
@@ -50,7 +51,7 @@ public record CreateVerificationRequest(
 
     public record ContractFile(
             @NotBlank String path,
-            @NotEmpty @Valid List<ContractResult> contracts
+            @NotEmpty List<@Valid ContractResult> contracts
     ) {
     }
 

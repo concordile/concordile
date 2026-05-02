@@ -18,6 +18,7 @@ package io.github.concordile.broker.service.command;
 
 import io.github.concordile.broker.domain.VerificationPartyRole;
 import io.github.concordile.broker.domain.VerificationStatus;
+import org.jspecify.annotations.Nullable;
 
 import java.util.List;
 
@@ -36,7 +37,7 @@ public record CreateVerificationCommand(
 
     public record Counterparty(
             ApplicationRef application,
-            String version,
+            @Nullable String version,
             List<ContractFile> files
     ) {
     }
