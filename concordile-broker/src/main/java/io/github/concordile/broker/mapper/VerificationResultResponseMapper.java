@@ -16,17 +16,16 @@
 
 package io.github.concordile.broker.mapper;
 
-import io.github.concordile.broker.api.v1.VerificationResponse;
+import io.github.concordile.broker.api.v1.VerificationResultResponse;
 import io.github.concordile.broker.config.MapStructConfig;
-import io.github.concordile.broker.domain.Verification;
+import io.github.concordile.broker.domain.VerificationResult;
 import org.mapstruct.Mapper;
 
-@Mapper(config = MapStructConfig.class, uses = VerificationResultResponseMapper.class)
-public interface VerificationResponseMapper
-        extends ResponseMapper<Verification, VerificationResponse> {
+@Mapper(config = MapStructConfig.class)
+public interface VerificationResultResponseMapper
+        extends ResponseMapper<VerificationResult, VerificationResultResponse> {
 
     @Override
-    VerificationResponse mapDomain2Response(Verification domain);
+    VerificationResultResponse mapDomain2Response(VerificationResult domain);
 
 }
-

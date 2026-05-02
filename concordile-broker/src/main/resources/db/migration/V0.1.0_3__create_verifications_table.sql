@@ -24,5 +24,6 @@ create table if not exists verifications
     party_role    text             not null,
     party_id      uuid             not null references applications (id),
     party_version text             not null,
-    status        text             not null
+    status  text  not null,
+    context jsonb not null default '{}'::jsonb
 );

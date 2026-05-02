@@ -30,6 +30,7 @@ import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
 
 import java.time.Instant;
+import java.util.Map;
 import java.util.UUID;
 
 @Getter
@@ -67,5 +68,7 @@ public class VerificationEntity {
     private String partyVersion;
 
     private String status;
+
+    private Map<String, Object> context;
 
 }

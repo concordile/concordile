@@ -35,6 +35,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @Service
@@ -61,6 +62,7 @@ class DefaultVerificationService implements VerificationService {
                 .partyId(partyEntity.getId())
                 .partyVersion(command.partyVersion())
                 .status(resolveVerificationStatus(command).name())
+                .context(command.context() == null ? Map.of() : command.context())
                 .build());
 
         var results = createResults(command, partyEntity, savedVerificationEntity.getId());
@@ -162,6 +164,7 @@ class DefaultVerificationService implements VerificationService {
                 .contractId(contractEntity.getId())
                 .counterpartyVersion(counterpartyVersion)
                 .status(contractResult.status().name())
+                .context(contractResult.context() == null ? Map.of() : contractResult.context())
                 .build();
 
         var savedResultEntity = verificationResultRepository.save(resultEntity);
