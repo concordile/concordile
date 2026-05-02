@@ -36,6 +36,7 @@ repositories {
 }
 
 dependencies {
+    api "org.jspecify:jspecify:${jspecifyVersion}"
     implementation project(':concordile-broker-api')
     implementation project(':concordile-spring:concordile-spring-cloud-contract-api')
     implementation "tools.jackson.core:jackson-databind:${jacksonVersion}"

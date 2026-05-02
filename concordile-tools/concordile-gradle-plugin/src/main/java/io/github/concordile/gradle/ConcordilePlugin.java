@@ -16,19 +16,25 @@
 
 package io.github.concordile.gradle;
 
+import io.github.concordile.gradle.config.ProducerVerificationConfigurer;
+import io.github.concordile.gradle.extension.ConcordileExtension;
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;
 
+import static io.github.concordile.gradle.ConcordilePluginConstants.EXTENSION_NAME;
+
+@SuppressWarnings("unused")
 public class ConcordilePlugin implements Plugin<Project> {
 
-    public static final String PLUGIN_ID = "io.github.concordile";
-    public static final String SPRING_CLOUD_CONTRACT_PLUGIN_ID = "org.springframework.cloud.contract";
-    public static final String EXTENSION_GAV = "io.github.concordile.spring:concordile-spring-cloud-contract-extension:0.1.0-SNAPSHOT";
-
+    @Override
     public void apply(Project project) {
-        project.getPluginManager().withPlugin(SPRING_CLOUD_CONTRACT_PLUGIN_ID, plugin -> {
-            project.getDependencies().add("contractTestImplementation", EXTENSION_GAV);
-        });
+        var extension = project.getExtensions().create(
+                EXTENSION_NAME,
+                ConcordileExtension.class,
+                project
+        );
+
+        new ProducerVerificationConfigurer(project, extension).configure();
     }
 
 }
