@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package io.github.concordile.spring.cloud.contract.extension;
+package io.github.concordile.spring.cloud.contract.producer;
 
 import io.github.concordile.spring.cloud.contract.api.ProducerContractContext;
 import org.jspecify.annotations.Nullable;

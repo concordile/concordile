@@ -20,7 +20,7 @@ plugins {
 }
 
 version = '0.1.0-SNAPSHOT'
-description = 'Concordile Spring Cloud Contract Extension'
+description = 'Concordile Spring Cloud Contract Producer Extension'
 
 java {
     toolchain {

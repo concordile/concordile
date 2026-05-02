@@ -1,0 +1,2 @@
+org.springframework.cloud.contract.verifier.builder.SingleTestGenerator=\
+  io.github.concordile.spring.cloud.contract.producer.ConcordileSingleTestGenerator

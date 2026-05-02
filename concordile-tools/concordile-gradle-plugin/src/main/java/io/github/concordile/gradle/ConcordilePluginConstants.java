@@ -24,7 +24,8 @@ public final class ConcordilePluginConstants {
     public static final String GROUP_NAME = "concordile";
 
     public static final String SPRING_CLOUD_CONTRACT_PLUGIN_ID = "org.springframework.cloud.contract";
-    public static final String SPRING_CLOUD_CONTRACT_EXTENSION_GAV = "io.github.concordile.spring:concordile-spring-cloud-contract-extension:0.1.0-SNAPSHOT";
+    public static final String SPRING_CLOUD_CONTRACT_CONSUMER_EXTENSION_GAV = "io.github.concordile.spring:concordile-spring-cloud-contract-consumer-extension:0.1.0-SNAPSHOT";
+    public static final String SPRING_CLOUD_CONTRACT_PRODUCER_EXTENSION_GAV = "io.github.concordile.spring:concordile-spring-cloud-contract-producer-extension:0.1.0-SNAPSHOT";
 
     public static final String PREPARE_PRODUCER_VERIFICATION_CONTEXT_TASK_NAME = "prepareConcordileProducerVerificationContext";
 

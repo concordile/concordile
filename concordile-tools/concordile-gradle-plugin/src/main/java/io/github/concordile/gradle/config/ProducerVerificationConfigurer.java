@@ -33,8 +33,8 @@ import static io.github.concordile.gradle.ConcordilePluginConstants.GROUP_NAME;
 import static io.github.concordile.gradle.ConcordilePluginConstants.PREPARE_PRODUCER_VERIFICATION_CONTEXT_TASK_NAME;
 import static io.github.concordile.gradle.ConcordilePluginConstants.PRODUCER_VERIFICATION_CONTEXT_FILE;
 import static io.github.concordile.gradle.ConcordilePluginConstants.PUBLISH_PRODUCER_VERIFICATION_TASK_NAME;
-import static io.github.concordile.gradle.ConcordilePluginConstants.SPRING_CLOUD_CONTRACT_EXTENSION_GAV;
 import static io.github.concordile.gradle.ConcordilePluginConstants.SPRING_CLOUD_CONTRACT_PLUGIN_ID;
+import static io.github.concordile.gradle.ConcordilePluginConstants.SPRING_CLOUD_CONTRACT_PRODUCER_EXTENSION_GAV;
 
 public final class ProducerVerificationConfigurer {
 
@@ -66,7 +66,7 @@ public final class ProducerVerificationConfigurer {
                 prepareProducerContext
         );
 
-        configureSpringCloudContractIntegration(
+        configureProducerSpringCloudContractIntegration(
                 prepareProducerContext,
                 publishProducerVerification
         );
@@ -131,14 +131,14 @@ public final class ProducerVerificationConfigurer {
         );
     }
 
-    private void configureSpringCloudContractIntegration(
+    private void configureProducerSpringCloudContractIntegration(
             TaskProvider<PrepareProducerVerificationContextTask> prepareProducerContext,
             TaskProvider<PublishProducerVerificationTask> publishProducerVerification
     ) {
         project.getPluginManager().withPlugin(SPRING_CLOUD_CONTRACT_PLUGIN_ID, plugin -> {
             project.getDependencies().add(
                     "contractTestImplementation",
-                    SPRING_CLOUD_CONTRACT_EXTENSION_GAV
+                    SPRING_CLOUD_CONTRACT_PRODUCER_EXTENSION_GAV
             );
 
             prepareProducerContext.configure(task ->

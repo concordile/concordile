@@ -14,15 +14,7 @@
  * limitations under the License.
  */
 
-rootProject.name = 'concordile'
+@NullMarked
+package io.github.concordile.spring.cloud.contract.producer;
 
-include 'concordile-broker'
-include 'concordile-broker-api'
-
-include 'concordile-spring'
-include 'concordile-spring:concordile-spring-cloud-contract-api'
-include 'concordile-spring:concordile-spring-cloud-contract-consumer-extension'
-include 'concordile-spring:concordile-spring-cloud-contract-producer-extension'
-
-include 'concordile-tools'
-include 'concordile-tools:concordile-gradle-plugin'
+import org.jspecify.annotations.NullMarked;
