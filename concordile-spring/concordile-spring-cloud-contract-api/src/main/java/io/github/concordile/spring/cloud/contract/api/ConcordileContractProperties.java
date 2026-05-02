@@ -14,34 +14,13 @@
  * limitations under the License.
  */
 
-plugins {
-    id 'java-library'
-    id 'maven-publish'
-}
+package io.github.concordile.spring.cloud.contract.api;
 
-version = '0.1.0-SNAPSHOT'
-description = 'Concordile Spring Cloud Contract API'
+public final class ConcordileContractProperties {
 
-java {
-    toolchain {
-        languageVersion = JavaLanguageVersion.of(17)
+    public static final String PRODUCER_RAW_CONTEXT_FILE = "concordile.producer.rawContextFile";
+
+    private ConcordileContractProperties() {
     }
-    withSourcesJar()
-    withJavadocJar()
-}
 
-repositories {
-    mavenCentral()
-}
-
-dependencies {
-    api "org.jspecify:jspecify:${jspecifyVersion}"
-}
-
-publishing {
-    publications {
-        springApiLib(MavenPublication) {
-            from components.java
-        }
-    }
 }
