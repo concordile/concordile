@@ -17,6 +17,7 @@
 package io.github.concordile.broker.api.v1;
 
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 public record VerificationResponse(
@@ -25,6 +26,7 @@ public record VerificationResponse(
         UUID partyId,
         String partyVersion,
         VerificationStatus status,
+        Map<String, Object> context,
         List<VerificationResultResponse> results
 ) {
 }

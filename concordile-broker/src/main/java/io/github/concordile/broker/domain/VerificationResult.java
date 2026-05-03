@@ -18,12 +18,14 @@ package io.github.concordile.broker.domain;
 
 import org.jspecify.annotations.Nullable;
 
+import java.util.Map;
 import java.util.UUID;
 
 public record VerificationResult(
         UUID id,
         UUID contractId,
         @Nullable String counterpartyVersion,
-        VerificationStatus status
+        VerificationStatus status,
+        Map<String, Object> context
 ) {
 }

@@ -17,6 +17,7 @@
 package io.github.concordile.broker.domain;
 
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 public record Verification(
@@ -25,6 +26,7 @@ public record Verification(
         UUID partyId,
         String partyVersion,
         VerificationStatus status,
+        Map<String, Object> context,
         List<VerificationResult> results
 ) {
 
@@ -35,6 +37,7 @@ public record Verification(
                 partyId,
                 partyVersion,
                 status,
+                context,
                 results
         );
     }

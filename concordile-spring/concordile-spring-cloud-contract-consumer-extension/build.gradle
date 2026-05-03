@@ -19,7 +19,6 @@ plugins {
     id 'maven-publish'
 }
 
-version = '0.1.0-SNAPSHOT'
 description = 'Concordile Spring Cloud Contract Consumer Extension'
 
 java {

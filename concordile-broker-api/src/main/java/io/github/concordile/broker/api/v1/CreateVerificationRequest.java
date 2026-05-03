@@ -23,9 +23,11 @@ import jakarta.validation.constraints.NotNull;
 import org.jspecify.annotations.Nullable;
 
 import java.util.List;
+import java.util.Map;
 
 public record CreateVerificationRequest(
         @NotNull @Valid Party party,
+        @Nullable Map<String, Object> context,
         @NotEmpty List<@Valid Counterparty> counterparties
 ) {
 
@@ -57,7 +59,8 @@ public record CreateVerificationRequest(
 
     public record ContractResult(
             @NotBlank String name,
-            @NotNull VerificationStatus status
+            @NotNull VerificationStatus status,
+            @Nullable Map<String, Object> context
     ) {
     }
 

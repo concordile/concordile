@@ -18,6 +18,7 @@ package io.github.concordile.gradle.mapper;
 
 import io.github.concordile.broker.api.v1.CreateVerificationRequest;
 import io.github.concordile.broker.api.v1.VerificationStatus;
+import io.github.concordile.gradle.context.TestContextFactory;
 import io.github.concordile.gradle.model.ConsumerVerificationContext;
 import org.gradle.api.GradleException;
 
@@ -25,9 +26,12 @@ import java.util.Map;
 
 public final class ConsumerVerificationRequestMapper {
 
+    private final TestContextFactory testContextFactory = new TestContextFactory();
+
     public CreateVerificationRequest map(
             ConsumerVerificationContext context,
-            Map<String, VerificationStatus> testResults
+            Map<String, VerificationStatus> testResults,
+            Map<String, Object> verificationContext
     ) {
         return new CreateVerificationRequest(
                 new CreateVerificationRequest.Party(
@@ -35,6 +39,7 @@ public final class ConsumerVerificationRequestMapper {
                         toApiApplication(context.application()),
                         context.version()
                 ),
+                verificationContext,
                 context.counterparties().stream()
                         .map(counterparty -> new CreateVerificationRequest.Counterparty(
                                 toApiApplication(counterparty.application()),
@@ -45,7 +50,11 @@ public final class ConsumerVerificationRequestMapper {
                                                 file.contracts().stream()
                                                         .map(contract -> new CreateVerificationRequest.ContractResult(
                                                                 contract.name(),
-                                                                resolveStatus(contract, testResults)
+                                                                resolveStatus(contract, testResults),
+                                                                testContextFactory.create(
+                                                                        contract.testClassName(),
+                                                                        contract.testMethodName()
+                                                                )
                                                         ))
                                                         .toList()
                                         ))

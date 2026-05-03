@@ -21,11 +21,13 @@ import io.github.concordile.broker.domain.VerificationStatus;
 import org.jspecify.annotations.Nullable;
 
 import java.util.List;
+import java.util.Map;
 
 public record CreateVerificationCommand(
         VerificationPartyRole partyRole,
         ApplicationRef party,
         String partyVersion,
+        @Nullable Map<String, Object> context,
         List<Counterparty> counterparties
 ) {
 
@@ -50,7 +52,8 @@ public record CreateVerificationCommand(
 
     public record ContractResult(
             String name,
-            VerificationStatus status
+            VerificationStatus status,
+            @Nullable Map<String, Object> context
     ) {
     }
 

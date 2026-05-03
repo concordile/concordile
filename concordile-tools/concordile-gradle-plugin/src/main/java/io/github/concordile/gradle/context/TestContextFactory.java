@@ -14,19 +14,26 @@
  * limitations under the License.
  */
 
-package io.github.concordile.broker.mapper;
+package io.github.concordile.gradle.context;
 
-import io.github.concordile.broker.api.v1.VerificationResponse;
-import io.github.concordile.broker.config.MapStructConfig;
-import io.github.concordile.broker.domain.Verification;
-import org.mapstruct.Mapper;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
-@Mapper(config = MapStructConfig.class, uses = VerificationResultResponseMapper.class)
-public interface VerificationResponseMapper
-        extends ResponseMapper<Verification, VerificationResponse> {
+public final class TestContextFactory {
 
-    @Override
-    VerificationResponse mapDomain2Response(Verification domain);
+    public Map<String, Object> create(
+            String testClassName,
+            String testMethodName
+    ) {
+        var context = new LinkedHashMap<String, Object>();
+
+        var test = new LinkedHashMap<String, Object>();
+        test.put("className", testClassName);
+        test.put("methodName", testMethodName);
+
+        context.put("test", test);
+
+        return context;
+    }
 
 }
-

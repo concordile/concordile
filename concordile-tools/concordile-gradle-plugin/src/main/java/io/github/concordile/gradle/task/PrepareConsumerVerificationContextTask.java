@@ -96,7 +96,7 @@ public abstract class PrepareConsumerVerificationContextTask extends DefaultTask
                     Cannot find WireMock mappings in test runtime classpath.
                     
                     Expected producer stubs jar on testRuntimeClasspath, for example:
-                    producer-service-0.1.0-SNAPSHOT-stubs.jar
+                    service-stubs.jar
                     """);
         }
 

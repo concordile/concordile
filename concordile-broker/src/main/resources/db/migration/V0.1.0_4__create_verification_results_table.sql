@@ -24,5 +24,6 @@ create table if not exists verification_results
     verification_id      uuid             not null references verifications (id),
     contract_id          uuid             not null references contracts (id),
     counterparty_version text             null,
-    status               text             not null
+    status  text  not null,
+    context jsonb not null default '{}'::jsonb
 );
