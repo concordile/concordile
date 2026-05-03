@@ -14,20 +14,12 @@
  * limitations under the License.
  */
 
-package io.github.concordile.broker.repository;
+package io.github.concordile.broker.domain;
 
-import io.github.concordile.broker.entity.ApplicationEntity;
-import org.springframework.data.repository.ListCrudRepository;
+public enum DeploymentCheckStatus {
 
-import java.util.Optional;
-import java.util.UUID;
-
-public interface ApplicationRepository
-        extends ListCrudRepository<ApplicationEntity, UUID> {
-
-    Optional<ApplicationEntity> findByGroupIdAndName(
-            String groupId,
-            String name
-    );
+    READY,
+    BLOCKED,
+    UNKNOWN,
 
 }

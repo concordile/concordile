@@ -14,10 +14,11 @@
  * limitations under the License.
  */
 
-package io.github.concordile.broker.mapper;
+package io.github.concordile.broker.mapper.v1;
 
 import io.github.concordile.broker.api.v1.CreateVerificationRequest;
 import io.github.concordile.broker.config.MapStructConfig;
+import io.github.concordile.broker.mapper.RequestMapper;
 import io.github.concordile.broker.service.command.CreateVerificationCommand;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

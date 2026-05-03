@@ -16,11 +16,11 @@
 
 package io.github.concordile.broker.controller.v1;
 
-import io.github.concordile.broker.api.v1.CreateVerificationRequest;
-import io.github.concordile.broker.api.v1.VerificationResponse;
-import io.github.concordile.broker.mapper.v1.CreateVerificationRequestMapper;
-import io.github.concordile.broker.mapper.v1.VerificationResponseMapper;
-import io.github.concordile.broker.service.VerificationService;
+import io.github.concordile.broker.api.v1.CreateDeploymentRecordRequest;
+import io.github.concordile.broker.api.v1.DeploymentRecordResponse;
+import io.github.concordile.broker.mapper.v1.CreateDeploymentRecordRequestMapper;
+import io.github.concordile.broker.mapper.v1.DeploymentRecordResponseMapper;
+import io.github.concordile.broker.service.DeploymentRecordService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
@@ -28,16 +28,16 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 @RestController
 @RequiredArgsConstructor
-public class VerificationController implements VerificationApi {
+public class DeploymentRecordController implements DeploymentRecordApi {
 
-    private final VerificationService service;
+    private final DeploymentRecordService service;
 
-    private final CreateVerificationRequestMapper createRequestMapper;
-    private final VerificationResponseMapper responseMapper;
+    private final CreateDeploymentRecordRequestMapper createRequestMapper;
+    private final DeploymentRecordResponseMapper responseMapper;
 
     @Override
-    public ResponseEntity<VerificationResponse> createVerification(
-            CreateVerificationRequest request
+    public ResponseEntity<DeploymentRecordResponse> createDeployment(
+            CreateDeploymentRecordRequest request
     ) {
         var command = createRequestMapper.mapRequest2Command(request);
         var domain = service.create(command);

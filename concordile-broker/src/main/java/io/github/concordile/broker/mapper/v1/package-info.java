@@ -14,20 +14,7 @@
  * limitations under the License.
  */
 
-package io.github.concordile.broker.repository;
+@NullUnmarked
+package io.github.concordile.broker.mapper.v1;
 
-import io.github.concordile.broker.entity.ApplicationEntity;
-import org.springframework.data.repository.ListCrudRepository;
-
-import java.util.Optional;
-import java.util.UUID;
-
-public interface ApplicationRepository
-        extends ListCrudRepository<ApplicationEntity, UUID> {
-
-    Optional<ApplicationEntity> findByGroupIdAndName(
-            String groupId,
-            String name
-    );
-
-}
+import org.jspecify.annotations.NullUnmarked;

@@ -16,33 +16,30 @@
 
 package io.github.concordile.broker.service;
 
-import io.github.concordile.broker.entity.ApplicationEntity;
-import io.github.concordile.broker.repository.ApplicationRepository;
+import io.github.concordile.broker.entity.VerificationResultEntity;
+import io.github.concordile.broker.repository.VerificationResultRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+import java.util.UUID;
+
 @Service
 @Transactional
 @RequiredArgsConstructor
-class DefaultApplicationService implements ApplicationService {
+class DefaultVerificationResultService implements VerificationResultService {
 
-    private final ApplicationRepository repository;
-
-    @Override
-    public ApplicationEntity findOrCreate(String groupId, String name) {
-        // FIXME: duplicates
-        return repository.findByGroupIdAndName(groupId, name)
-                .orElseGet(() -> create(groupId, name));
-    }
+    private final VerificationResultRepository repository;
 
     @Override
-    public ApplicationEntity create(String groupId, String name) {
-        var entity = ApplicationEntity.builder()
-                .groupId(groupId)
-                .name(name)
-                .build();
-        return repository.save(entity);
+    public List<VerificationResultEntity> findLatestPerContractForPartyVersions(
+            UUID appIdA,
+            String versionA,
+            UUID appIdB,
+            String versionB
+    ) {
+        return repository.findLatestPerContractForPartyVersions(appIdA, versionA, appIdB, versionB);
     }
 
 }

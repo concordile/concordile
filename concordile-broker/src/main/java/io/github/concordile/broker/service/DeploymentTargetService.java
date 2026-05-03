@@ -14,20 +14,19 @@
  * limitations under the License.
  */
 
-package io.github.concordile.broker.repository;
+package io.github.concordile.broker.service;
 
-import io.github.concordile.broker.entity.ApplicationEntity;
-import org.springframework.data.repository.ListCrudRepository;
+import io.github.concordile.broker.domain.DeploymentTarget;
+import io.github.concordile.broker.service.command.CreateDeploymentTargetCommand;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
-import java.util.Optional;
-import java.util.UUID;
+public interface DeploymentTargetService {
 
-public interface ApplicationRepository
-        extends ListCrudRepository<ApplicationEntity, UUID> {
+    Page<DeploymentTarget> findAll(Pageable pageable);
 
-    Optional<ApplicationEntity> findByGroupIdAndName(
-            String groupId,
-            String name
-    );
+    DeploymentTarget getByName(String name);
+
+    DeploymentTarget create(CreateDeploymentTargetCommand command);
 
 }

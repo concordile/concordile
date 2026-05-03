@@ -14,18 +14,14 @@
  * limitations under the License.
  */
 
-package io.github.concordile.broker.mapper;
+package io.github.concordile.broker.api.v1;
 
-import io.github.concordile.broker.api.v1.VerificationResultResponse;
-import io.github.concordile.broker.config.MapStructConfig;
-import io.github.concordile.broker.domain.VerificationResult;
-import org.mapstruct.Mapper;
+import java.util.Map;
+import java.util.UUID;
 
-@Mapper(config = MapStructConfig.class)
-public interface VerificationResultResponseMapper
-        extends ResponseMapper<VerificationResult, VerificationResultResponse> {
-
-    @Override
-    VerificationResultResponse mapDomain2Response(VerificationResult domain);
-
+public record DeploymentTargetResponse(
+        UUID id,
+        String name,
+        Map<String, Object> context
+) {
 }

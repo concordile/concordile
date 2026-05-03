@@ -16,35 +16,29 @@
 
 package io.github.concordile.broker.repository;
 
-import io.github.concordile.broker.entity.ContractEntity;
+import io.github.concordile.broker.entity.DeploymentTargetEntity;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jdbc.repository.query.Query;
 import org.springframework.data.repository.ListCrudRepository;
+import org.springframework.data.repository.PagingAndSortingRepository;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-public interface ContractRepository
-        extends ListCrudRepository<ContractEntity, UUID> {
+public interface DeploymentTargetRepository
+        extends ListCrudRepository<DeploymentTargetEntity, UUID>,
+        PagingAndSortingRepository<DeploymentTargetEntity, UUID> {
 
-    Optional<ContractEntity> findByProviderIdAndConsumerIdAndPathAndName(
-            UUID providerId,
-            UUID consumerId,
-            String path,
-            String name
-    );
+    Page<DeploymentTargetEntity> findAllByDeletedAtIsNull(Pageable pageable);
 
     // language=PostgreSQL
     @Query("""
-            select c.id
-            from contracts c
-            where c.deleted_at is null
-              and c.consumer_id is not null
-              and (
-                (c.provider_id = :appIdA and c.consumer_id = :appIdB)
-                or (c.provider_id = :appIdB and c.consumer_id = :appIdA)
-              )
+            select *
+            from deployment_targets
+            where name = :name
+              and deleted_at is null
             """)
-    List<UUID> findContractIdsBetweenApps(UUID appIdA, UUID appIdB);
+    Optional<DeploymentTargetEntity> findActiveByName(String name);
 
 }

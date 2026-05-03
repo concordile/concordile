@@ -22,6 +22,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -29,7 +30,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 class DefaultContractService implements ContractService {
 
-    private final ContractRepository contractRepository;
+    private final ContractRepository repository;
 
     @Override
     public ContractEntity findOrCreate(
@@ -39,7 +40,7 @@ class DefaultContractService implements ContractService {
             String name
     ) {
         // FIXME: duplicates
-        return contractRepository.findByProviderIdAndConsumerIdAndPathAndName(
+        return repository.findByProviderIdAndConsumerIdAndPathAndName(
                         providerId,
                         consumerId,
                         path,
@@ -66,7 +67,12 @@ class DefaultContractService implements ContractService {
                 .path(path)
                 .name(name)
                 .build();
-        return contractRepository.save(entity);
+        return repository.save(entity);
+    }
+
+    @Override
+    public List<UUID> findIdsBetweenApps(UUID appIdA, UUID appIdB) {
+        return repository.findContractIdsBetweenApps(appIdA, appIdB);
     }
 
 }

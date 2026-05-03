@@ -14,20 +14,27 @@
  * limitations under the License.
  */
 
-package io.github.concordile.broker.repository;
+package io.github.concordile.broker.entity;
 
-import io.github.concordile.broker.entity.ApplicationEntity;
-import org.springframework.data.repository.ListCrudRepository;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.relational.core.mapping.Embedded;
+import org.springframework.data.relational.core.mapping.Table;
 
-import java.util.Optional;
-import java.util.UUID;
+@Getter
+@Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@Table("deployment_check_evaluation_results")
+public class DeploymentCheckEvaluationResultEntity {
 
-public interface ApplicationRepository
-        extends ListCrudRepository<ApplicationEntity, UUID> {
-
-    Optional<ApplicationEntity> findByGroupIdAndName(
-            String groupId,
-            String name
-    );
+    @Id
+    @Embedded.Empty
+    private DeploymentCheckEvaluationResultId id;
 
 }

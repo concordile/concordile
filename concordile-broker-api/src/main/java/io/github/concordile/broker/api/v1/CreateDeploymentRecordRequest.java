@@ -14,20 +14,22 @@
  * limitations under the License.
  */
 
-package io.github.concordile.broker.repository;
+package io.github.concordile.broker.api.v1;
 
-import io.github.concordile.broker.entity.ApplicationEntity;
-import org.springframework.data.repository.ListCrudRepository;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
-import java.util.Optional;
-import java.util.UUID;
+public record CreateDeploymentRecordRequest(
+        @NotBlank String target,
+        @NotNull @Valid Application application,
+        @NotBlank String version
+) {
 
-public interface ApplicationRepository
-        extends ListCrudRepository<ApplicationEntity, UUID> {
-
-    Optional<ApplicationEntity> findByGroupIdAndName(
-            String groupId,
-            String name
-    );
+    public record Application(
+            @NotBlank String groupId,
+            @NotBlank String name
+    ) {
+    }
 
 }

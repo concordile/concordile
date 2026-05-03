@@ -14,20 +14,13 @@
  * limitations under the License.
  */
 
-package io.github.concordile.broker.repository;
-
-import io.github.concordile.broker.entity.ApplicationEntity;
-import org.springframework.data.repository.ListCrudRepository;
-
-import java.util.Optional;
-import java.util.UUID;
-
-public interface ApplicationRepository
-        extends ListCrudRepository<ApplicationEntity, UUID> {
-
-    Optional<ApplicationEntity> findByGroupIdAndName(
-            String groupId,
-            String name
-    );
-
-}
+create table if not exists deployment_targets
+(
+    id          uuid primary key not null default gen_random_uuid(),
+    version     bigint           not null default 0,
+    created_at  timestamptz      not null default now(),
+    modified_at timestamptz      not null default now(),
+    deleted_at  timestamptz      null,
+    name        text             not null,
+    context     jsonb            not null default '{}'::jsonb
+);

@@ -14,20 +14,16 @@
  * limitations under the License.
  */
 
-package io.github.concordile.broker.repository;
+package io.github.concordile.broker.entity;
 
-import io.github.concordile.broker.entity.ApplicationEntity;
-import org.springframework.data.repository.ListCrudRepository;
+import org.springframework.data.relational.core.mapping.Column;
 
-import java.util.Optional;
 import java.util.UUID;
 
-public interface ApplicationRepository
-        extends ListCrudRepository<ApplicationEntity, UUID> {
-
-    Optional<ApplicationEntity> findByGroupIdAndName(
-            String groupId,
-            String name
-    );
-
+public record DeploymentCheckEvaluationResultId(
+        @Column("evaluation_id")
+        UUID evaluationId,
+        @Column("result_id")
+        UUID resultId
+) {
 }

@@ -14,20 +14,19 @@
  * limitations under the License.
  */
 
-package io.github.concordile.broker.repository;
+package io.github.concordile.broker.mapper.v1;
 
-import io.github.concordile.broker.entity.ApplicationEntity;
-import org.springframework.data.repository.ListCrudRepository;
+import io.github.concordile.broker.api.v1.DeploymentTargetResponse;
+import io.github.concordile.broker.config.MapStructConfig;
+import io.github.concordile.broker.domain.DeploymentTarget;
+import io.github.concordile.broker.mapper.ResponseMapper;
+import org.mapstruct.Mapper;
 
-import java.util.Optional;
-import java.util.UUID;
+@Mapper(config = MapStructConfig.class)
+public interface DeploymentTargetResponseMapper
+        extends ResponseMapper<DeploymentTarget, DeploymentTargetResponse> {
 
-public interface ApplicationRepository
-        extends ListCrudRepository<ApplicationEntity, UUID> {
-
-    Optional<ApplicationEntity> findByGroupIdAndName(
-            String groupId,
-            String name
-    );
+    @Override
+    DeploymentTargetResponse mapDomain2Response(DeploymentTarget domain);
 
 }

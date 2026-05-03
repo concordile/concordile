@@ -14,18 +14,20 @@
  * limitations under the License.
  */
 
-package io.github.concordile.broker.mapper;
+package io.github.concordile.broker.service;
 
-import io.github.concordile.broker.config.MapStructConfig;
-import io.github.concordile.broker.domain.VerificationResult;
 import io.github.concordile.broker.entity.VerificationResultEntity;
-import org.mapstruct.Mapper;
 
-@Mapper(config = MapStructConfig.class)
-public interface VerificationResultEntityMapper
-        extends EntityMapper<VerificationResultEntity, VerificationResult> {
+import java.util.List;
+import java.util.UUID;
 
-    @Override
-    VerificationResult mapEntity2Domain(VerificationResultEntity entity);
+public interface VerificationResultService {
+
+    List<VerificationResultEntity> findLatestPerContractForPartyVersions(
+            UUID appIdA,
+            String versionA,
+            UUID appIdB,
+            String versionB
+    );
 
 }

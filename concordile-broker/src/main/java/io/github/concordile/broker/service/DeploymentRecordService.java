@@ -14,20 +14,19 @@
  * limitations under the License.
  */
 
-package io.github.concordile.broker.repository;
+package io.github.concordile.broker.service;
 
-import io.github.concordile.broker.entity.ApplicationEntity;
-import org.springframework.data.repository.ListCrudRepository;
+import io.github.concordile.broker.domain.DeploymentRecord;
+import io.github.concordile.broker.entity.DeploymentRecordEntity;
+import io.github.concordile.broker.service.command.CreateDeploymentRecordCommand;
 
-import java.util.Optional;
+import java.util.List;
 import java.util.UUID;
 
-public interface ApplicationRepository
-        extends ListCrudRepository<ApplicationEntity, UUID> {
+public interface DeploymentRecordService {
 
-    Optional<ApplicationEntity> findByGroupIdAndName(
-            String groupId,
-            String name
-    );
+    DeploymentRecord create(CreateDeploymentRecordCommand command);
+
+    List<DeploymentRecordEntity> findAllActiveByTargetId(UUID targetId);
 
 }
