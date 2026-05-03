@@ -25,8 +25,8 @@ import java.util.UUID;
 public interface ContractRepository
         extends ListCrudRepository<ContractEntity, UUID> {
 
-    Optional<ContractEntity> findByProducerIdAndConsumerIdAndPathAndName(
-            UUID producerId,
+    Optional<ContractEntity> findByProviderIdAndConsumerIdAndPathAndName(
+            UUID providerId,
             UUID consumerId,
             String path,
             String name

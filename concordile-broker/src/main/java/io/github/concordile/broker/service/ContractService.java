@@ -23,14 +23,14 @@ import java.util.UUID;
 public interface ContractService {
 
     ContractEntity findOrCreate(
-            UUID producerId,
+            UUID providerId,
             UUID consumerId,
             String path,
             String name
     );
 
     ContractEntity create(
-            UUID producerId,
+            UUID providerId,
             UUID consumerId,
             String path,
             String name

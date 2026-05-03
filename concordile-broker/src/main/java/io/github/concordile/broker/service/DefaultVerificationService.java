@@ -153,7 +153,7 @@ class DefaultVerificationService implements VerificationService {
         var contractParties = resolveContractParties(partyRole, partyEntity, counterpartyEntity);
 
         var contractEntity = contractService.findOrCreate(
-                contractParties.producerId(),
+                contractParties.providerId(),
                 contractParties.consumerId(),
                 contractPath,
                 contractResult.name()
@@ -178,7 +178,7 @@ class DefaultVerificationService implements VerificationService {
             ApplicationEntity counterpartyEntity
     ) {
         return switch (partyRole) {
-            case PRODUCER -> new ContractParties(
+            case PROVIDER -> new ContractParties(
                     partyEntity.getId(),
                     counterpartyEntity.getId()
             );
@@ -201,7 +201,7 @@ class DefaultVerificationService implements VerificationService {
     }
 
     private record ContractParties(
-            UUID producerId,
+            UUID providerId,
             UUID consumerId
     ) {
     }
