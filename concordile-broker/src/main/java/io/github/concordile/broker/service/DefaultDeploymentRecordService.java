@@ -16,12 +16,12 @@
 
 package io.github.concordile.broker.service;
 
-import io.github.concordile.broker.domain.DeploymentCheck;
-import io.github.concordile.broker.domain.DeploymentCheckStatus;
-import io.github.concordile.broker.entity.DeploymentCheckEntity;
-import io.github.concordile.broker.mapper.DeploymentCheckEntityMapper;
-import io.github.concordile.broker.repository.DeploymentCheckRepository;
-import io.github.concordile.broker.service.command.CreateDeploymentCheckCommand;
+import io.github.concordile.broker.domain.DeploymentRecord;
+import io.github.concordile.broker.domain.DeploymentRecordStatus;
+import io.github.concordile.broker.entity.DeploymentRecordEntity;
+import io.github.concordile.broker.mapper.DeploymentRecordEntityMapper;
+import io.github.concordile.broker.repository.DeploymentRecordRepository;
+import io.github.concordile.broker.service.command.CreateDeploymentRecordCommand;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,27 +31,26 @@ import java.util.Map;
 @Service
 @Transactional
 @RequiredArgsConstructor
-class DefaultDeploymentCheckService implements DeploymentCheckService {
+class DefaultDeploymentRecordService implements DeploymentRecordService {
 
     private final DeploymentTargetService deploymentTargetService;
     private final ApplicationService applicationService;
 
-    private final DeploymentCheckRepository repository;
-
-    private final DeploymentCheckEntityMapper entityMapper;
+    private final DeploymentRecordRepository repository;
+    private final DeploymentRecordEntityMapper entityMapper;
 
     @Override
-    public DeploymentCheck create(CreateDeploymentCheckCommand command) {
+    public DeploymentRecord create(CreateDeploymentRecordCommand command) {
         var target = deploymentTargetService.getByName(command.target());
 
         var application = command.application();
         var appEntity = applicationService.findOrCreate(application.groupId(), application.name());
 
-        var saved = repository.save(DeploymentCheckEntity.builder()
+        var saved = repository.save(DeploymentRecordEntity.builder()
                 .targetId(target.id())
                 .appId(appEntity.getId())
                 .appVersion(command.version())
-                .status(DeploymentCheckStatus.READY.name()) // FIXME: evaluate
+                .status(DeploymentRecordStatus.ACTIVE.name()) // FIXME: replace previous
                 .context(Map.of())
                 .build());
 

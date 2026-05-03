@@ -14,19 +14,22 @@
  * limitations under the License.
  */
 
-package io.github.concordile.broker.service;
+package io.github.concordile.broker.api.v1;
 
-import io.github.concordile.broker.domain.DeploymentTarget;
-import io.github.concordile.broker.service.command.CreateDeploymentTargetCommand;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
-public interface DeploymentTargetService {
+public record CreateDeploymentRecordRequest(
+        @NotBlank String target,
+        @NotNull @Valid Application application,
+        @NotBlank String version
+) {
 
-    Page<DeploymentTarget> findAll(Pageable pageable);
-
-    DeploymentTarget getByName(String name);
-
-    DeploymentTarget create(CreateDeploymentTargetCommand command);
+    public record Application(
+            @NotBlank String groupId,
+            @NotBlank String name
+    ) {
+    }
 
 }

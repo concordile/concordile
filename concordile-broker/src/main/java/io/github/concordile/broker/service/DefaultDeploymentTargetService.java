@@ -18,6 +18,7 @@ package io.github.concordile.broker.service;
 
 import io.github.concordile.broker.domain.DeploymentTarget;
 import io.github.concordile.broker.entity.DeploymentTargetEntity;
+import io.github.concordile.broker.exception.EntityNotFoundException;
 import io.github.concordile.broker.mapper.DeploymentTargetEntityMapper;
 import io.github.concordile.broker.repository.DeploymentTargetRepository;
 import io.github.concordile.broker.service.command.CreateDeploymentTargetCommand;
@@ -42,6 +43,14 @@ class DefaultDeploymentTargetService implements DeploymentTargetService {
     public Page<DeploymentTarget> findAll(Pageable pageable) {
         return repository.findAllByDeletedAtIsNull(pageable)
                 .map(entityMapper::mapEntity2Domain);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public DeploymentTarget getByName(String name) {
+        return repository.findByNameAndDeletedAtIsNull(name)
+                .map(entityMapper::mapEntity2Domain)
+                .orElseThrow(() -> new EntityNotFoundException("Deployment target not found: " + name));
     }
 
     @Override

@@ -16,17 +16,11 @@
 
 package io.github.concordile.broker.service;
 
-import io.github.concordile.broker.domain.DeploymentTarget;
-import io.github.concordile.broker.service.command.CreateDeploymentTargetCommand;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import io.github.concordile.broker.domain.DeploymentRecord;
+import io.github.concordile.broker.service.command.CreateDeploymentRecordCommand;
 
-public interface DeploymentTargetService {
+public interface DeploymentRecordService {
 
-    Page<DeploymentTarget> findAll(Pageable pageable);
-
-    DeploymentTarget getByName(String name);
-
-    DeploymentTarget create(CreateDeploymentTargetCommand command);
+    DeploymentRecord create(CreateDeploymentRecordCommand command);
 
 }

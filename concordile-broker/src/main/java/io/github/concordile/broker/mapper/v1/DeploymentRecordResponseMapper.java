@@ -14,19 +14,19 @@
  * limitations under the License.
  */
 
-package io.github.concordile.broker.service;
+package io.github.concordile.broker.mapper.v1;
 
-import io.github.concordile.broker.domain.DeploymentTarget;
-import io.github.concordile.broker.service.command.CreateDeploymentTargetCommand;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import io.github.concordile.broker.api.v1.DeploymentRecordResponse;
+import io.github.concordile.broker.config.MapStructConfig;
+import io.github.concordile.broker.domain.DeploymentRecord;
+import io.github.concordile.broker.mapper.ResponseMapper;
+import org.mapstruct.Mapper;
 
-public interface DeploymentTargetService {
+@Mapper(config = MapStructConfig.class)
+public interface DeploymentRecordResponseMapper
+        extends ResponseMapper<DeploymentRecord, DeploymentRecordResponse> {
 
-    Page<DeploymentTarget> findAll(Pageable pageable);
-
-    DeploymentTarget getByName(String name);
-
-    DeploymentTarget create(CreateDeploymentTargetCommand command);
+    @Override
+    DeploymentRecordResponse mapDomain2Response(DeploymentRecord domain);
 
 }
