@@ -17,6 +17,7 @@
 package io.github.concordile.gradle.task;
 
 import io.github.concordile.gradle.client.ConcordileClient;
+import io.github.concordile.gradle.context.VerificationContextFactory;
 import io.github.concordile.gradle.mapper.ProducerVerificationRequestMapper;
 import io.github.concordile.gradle.model.ProducerVerificationContext;
 import io.github.concordile.gradle.testresult.JUnitXmlTestResultReader;
@@ -37,6 +38,8 @@ public abstract class PublishProducerVerificationTask extends DefaultTask {
     private final JUnitXmlTestResultReader testResultReader = new JUnitXmlTestResultReader();
 
     private final ProducerVerificationRequestMapper requestMapper = new ProducerVerificationRequestMapper();
+
+    private final VerificationContextFactory contextFactory = new VerificationContextFactory();
 
     private final ConcordileClient client = new ConcordileClient();
 
@@ -60,7 +63,11 @@ public abstract class PublishProducerVerificationTask extends DefaultTask {
                 getTestResultsDirectory().get().getAsFile().toPath()
         );
 
-        var request = requestMapper.map(context, testResults);
+        var request = requestMapper.map(
+                context,
+                testResults,
+                contextFactory.create(getProject())
+        );
 
         client.createVerification(
                 getBrokerUrl().get(),
