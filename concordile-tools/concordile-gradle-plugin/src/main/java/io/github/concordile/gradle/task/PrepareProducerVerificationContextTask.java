@@ -18,7 +18,7 @@ package io.github.concordile.gradle.task;
 
 import io.github.concordile.broker.api.v1.VerificationPartyRole;
 import io.github.concordile.gradle.model.ProducerVerificationContext;
-import io.github.concordile.spring.cloud.contract.api.ProducerContractContext;
+import io.github.concordile.spring.cloud.contract.api.ProviderContractContext;
 import org.gradle.api.DefaultTask;
 import org.gradle.api.GradleException;
 import org.gradle.api.file.ConfigurableFileCollection;
@@ -85,15 +85,15 @@ public abstract class PrepareProducerVerificationContextTask extends DefaultTask
                     """);
         }
 
-        var rawContext = new ProducerContractContext(List.of());
+        var rawContext = new ProviderContractContext(List.of());
 
         for (var file : rawContextFiles) {
-            var nextContext = jsonMapper.readValue(file, ProducerContractContext.class);
+            var nextContext = jsonMapper.readValue(file, ProviderContractContext.class);
             rawContext = rawContext.merge(nextContext);
         }
 
         var context = new ProducerVerificationContext(
-                VerificationPartyRole.PRODUCER,
+                VerificationPartyRole.PROVIDER,
                 new ProducerVerificationContext.Application(
                         getApplicationGroupId().get(),
                         getApplicationName().get()
@@ -109,7 +109,7 @@ public abstract class PrepareProducerVerificationContextTask extends DefaultTask
     }
 
     private List<ProducerVerificationContext.Counterparty> createCounterparties(
-            ProducerContractContext rawContext
+            ProviderContractContext rawContext
     ) {
         var consumerGroupIds = getConsumerGroupIds().get();
         var filesByConsumer = new LinkedHashMap<String, List<ProducerVerificationContext.ContractFile>>();

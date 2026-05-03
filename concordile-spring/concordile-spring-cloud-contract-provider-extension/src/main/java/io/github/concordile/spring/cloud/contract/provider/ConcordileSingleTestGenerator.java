@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package io.github.concordile.spring.cloud.contract.producer;
+package io.github.concordile.spring.cloud.contract.provider;
 
-import io.github.concordile.spring.cloud.contract.api.ProducerContractContext;
+import io.github.concordile.spring.cloud.contract.api.ProviderContractContext;
 import org.jspecify.annotations.Nullable;
 import org.springframework.cloud.contract.verifier.builder.JavaTestGenerator;
 import org.springframework.cloud.contract.verifier.builder.SingleTestGenerator;
@@ -73,7 +73,7 @@ public final class ConcordileSingleTestGenerator implements SingleTestGenerator 
             jsonMapper.writerWithDefaultPrettyPrinter()
                     .writeValue(path.toFile(), context);
         } catch (IOException exception) {
-            throw new IllegalStateException("Cannot write Concordile producer context", exception);
+            throw new IllegalStateException("Cannot write Concordile provider context", exception);
         }
     }
 
@@ -88,12 +88,12 @@ public final class ConcordileSingleTestGenerator implements SingleTestGenerator 
         return testClassPath.resolveSibling(contextFileName);
     }
 
-    private ProducerContractContext createContext(
+    private ProviderContractContext createContext(
             Collection<ContractMetadata> listOfFiles,
             @Nullable String includedDirectoryRelativePath,
             GeneratedClassData generatedClassData
     ) {
-        var files = new ArrayList<ProducerContractContext.ContractFile>();
+        var files = new ArrayList<ProviderContractContext.ContractFile>();
 
         for (var metadata : listOfFiles) {
             var contracts = createContracts(metadata);
@@ -102,7 +102,7 @@ public final class ConcordileSingleTestGenerator implements SingleTestGenerator 
                 continue;
             }
 
-            files.add(new ProducerContractContext.ContractFile(
+            files.add(new ProviderContractContext.ContractFile(
                     resolveConsumerName(includedDirectoryRelativePath, metadata.getPath()),
                     resolveContractPath(metadata.getPath()),
                     resolveTestClassName(generatedClassData),
@@ -110,18 +110,18 @@ public final class ConcordileSingleTestGenerator implements SingleTestGenerator 
             ));
         }
 
-        return new ProducerContractContext(files);
+        return new ProviderContractContext(files);
     }
 
-    private List<ProducerContractContext.Contract> createContracts(ContractMetadata metadata) {
-        var contracts = new ArrayList<ProducerContractContext.Contract>();
+    private List<ProviderContractContext.Contract> createContracts(ContractMetadata metadata) {
+        var contracts = new ArrayList<ProviderContractContext.Contract>();
 
         for (SingleContractMetadata singleMetadata : metadata.getConvertedContractWithMetadata()) {
             if (singleMetadata.isIgnored()) {
                 continue;
             }
 
-            contracts.add(new ProducerContractContext.Contract(
+            contracts.add(new ProviderContractContext.Contract(
                     resolveContractName(singleMetadata),
                     resolveTestMethodName(singleMetadata)
             ));

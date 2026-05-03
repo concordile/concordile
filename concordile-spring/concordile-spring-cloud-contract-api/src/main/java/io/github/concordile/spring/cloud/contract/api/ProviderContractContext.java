@@ -19,15 +19,15 @@ package io.github.concordile.spring.cloud.contract.api;
 import java.util.ArrayList;
 import java.util.List;
 
-public record ProducerContractContext(
+public record ProviderContractContext(
         List<ContractFile> files
 ) {
 
-    public ProducerContractContext merge(ProducerContractContext other) {
+    public ProviderContractContext merge(ProviderContractContext other) {
         var mergedFiles = new ArrayList<ContractFile>();
         mergedFiles.addAll(files);
         mergedFiles.addAll(other.files());
-        return new ProducerContractContext(mergedFiles);
+        return new ProviderContractContext(mergedFiles);
     }
 
     public record ContractFile(
