@@ -17,11 +17,28 @@
 package io.github.concordile.broker.repository;
 
 import io.github.concordile.broker.entity.DeploymentRecordEntity;
+import org.springframework.data.jdbc.repository.query.Query;
 import org.springframework.data.repository.ListCrudRepository;
 
+import java.util.Optional;
 import java.util.UUID;
 
 public interface DeploymentRecordRepository
         extends ListCrudRepository<DeploymentRecordEntity, UUID> {
+
+    // language=PostgreSQL
+    @Query("""
+            select *
+            from deployment_records
+            where target_id = :targetId
+              and app_id = :appId
+              and status = 'ACTIVE'
+              and deleted_at is null
+            limit 1
+            """)
+    Optional<DeploymentRecordEntity> findActiveByTargetIdAndAppId(
+            UUID targetId,
+            UUID appId
+    );
 
 }

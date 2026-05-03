@@ -46,11 +46,16 @@ class DefaultDeploymentRecordService implements DeploymentRecordService {
         var application = command.application();
         var appEntity = applicationService.findOrCreate(application.groupId(), application.name());
 
+        repository.findActiveByTargetIdAndAppId(target.id(), appEntity.getId()).ifPresent(active -> {
+            active.setStatus(DeploymentRecordStatus.REPLACED.name());
+            repository.save(active);
+        });
+
         var saved = repository.save(DeploymentRecordEntity.builder()
                 .targetId(target.id())
                 .appId(appEntity.getId())
                 .appVersion(command.version())
-                .status(DeploymentRecordStatus.ACTIVE.name()) // FIXME: replace previous
+                .status(DeploymentRecordStatus.ACTIVE.name())
                 .context(Map.of())
                 .build());
 
