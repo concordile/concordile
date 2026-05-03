@@ -22,6 +22,8 @@ import io.github.concordile.broker.mapper.DeploymentTargetEntityMapper;
 import io.github.concordile.broker.repository.DeploymentTargetRepository;
 import io.github.concordile.broker.service.command.CreateDeploymentTargetCommand;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -34,6 +36,13 @@ class DefaultDeploymentTargetService implements DeploymentTargetService {
 
     private final DeploymentTargetRepository repository;
     private final DeploymentTargetEntityMapper entityMapper;
+
+    @Override
+    @Transactional(readOnly = true)
+    public Page<DeploymentTarget> findAll(Pageable pageable) {
+        return repository.findAllByDeletedAtIsNull(pageable)
+                .map(entityMapper::mapEntity2Domain);
+    }
 
     @Override
     public DeploymentTarget create(CreateDeploymentTargetCommand command) {

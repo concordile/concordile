@@ -17,11 +17,17 @@
 package io.github.concordile.broker.repository;
 
 import io.github.concordile.broker.entity.DeploymentTargetEntity;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.ListCrudRepository;
+import org.springframework.data.repository.PagingAndSortingRepository;
 
 import java.util.UUID;
 
 public interface DeploymentTargetRepository
-        extends ListCrudRepository<DeploymentTargetEntity, UUID> {
+        extends ListCrudRepository<DeploymentTargetEntity, UUID>,
+        PagingAndSortingRepository<DeploymentTargetEntity, UUID> {
+
+    Page<DeploymentTargetEntity> findAllByDeletedAtIsNull(Pageable pageable);
 
 }

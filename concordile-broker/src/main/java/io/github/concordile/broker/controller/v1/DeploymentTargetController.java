@@ -22,6 +22,8 @@ import io.github.concordile.broker.mapper.v1.CreateDeploymentTargetRequestMapper
 import io.github.concordile.broker.mapper.v1.DeploymentTargetResponseMapper;
 import io.github.concordile.broker.service.DeploymentTargetService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PagedModel;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -34,6 +36,15 @@ public class DeploymentTargetController implements DeploymentTargetApi {
 
     private final CreateDeploymentTargetRequestMapper createRequestMapper;
     private final DeploymentTargetResponseMapper responseMapper;
+
+    @Override
+    public ResponseEntity<PagedModel<DeploymentTargetResponse>> findAllDeploymentTargets(
+            Pageable pageable
+    ) {
+        var page = service.findAll(pageable);
+        var response = new PagedModel<>(page.map(responseMapper::mapDomain2Response));
+        return ResponseEntity.ok(response);
+    }
 
     @Override
     public ResponseEntity<DeploymentTargetResponse> createDeploymentTarget(

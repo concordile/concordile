@@ -19,13 +19,24 @@ package io.github.concordile.broker.controller.v1;
 import io.github.concordile.broker.api.v1.CreateDeploymentTargetRequest;
 import io.github.concordile.broker.api.v1.DeploymentTargetResponse;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.data.web.PagedModel;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @RequestMapping("/api/v1/deployments/targets")
 public interface DeploymentTargetApi {
+
+    @GetMapping
+    ResponseEntity<PagedModel<DeploymentTargetResponse>> findAllDeploymentTargets(
+            @PageableDefault(size = 20, sort = "name", direction = Sort.Direction.ASC)
+            Pageable pageable
+    );
 
     @PostMapping
     ResponseEntity<DeploymentTargetResponse> createDeploymentTarget(

@@ -18,8 +18,12 @@ package io.github.concordile.broker.service;
 
 import io.github.concordile.broker.domain.DeploymentTarget;
 import io.github.concordile.broker.service.command.CreateDeploymentTargetCommand;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 public interface DeploymentTargetService {
+
+    Page<DeploymentTarget> findAll(Pageable pageable);
 
     DeploymentTarget create(CreateDeploymentTargetCommand command);
 
