@@ -18,8 +18,8 @@ package io.github.concordile.broker.controller.v1;
 
 import io.github.concordile.broker.api.v1.CreateVerificationRequest;
 import io.github.concordile.broker.api.v1.VerificationResponse;
-import io.github.concordile.broker.mapper.CreateVerificationRequestMapper;
-import io.github.concordile.broker.mapper.VerificationResponseMapper;
+import io.github.concordile.broker.mapper.v1.CreateVerificationRequestMapper;
+import io.github.concordile.broker.mapper.v1.VerificationResponseMapper;
 import io.github.concordile.broker.service.VerificationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

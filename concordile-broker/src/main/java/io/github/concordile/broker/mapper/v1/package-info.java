@@ -14,18 +14,7 @@
  * limitations under the License.
  */
 
-package io.github.concordile.broker.mapper;
+@NullMarked
+package io.github.concordile.broker.mapper.v1;
 
-import io.github.concordile.broker.api.v1.VerificationResultResponse;
-import io.github.concordile.broker.config.MapStructConfig;
-import io.github.concordile.broker.domain.VerificationResult;
-import org.mapstruct.Mapper;
-
-@Mapper(config = MapStructConfig.class)
-public interface VerificationResultResponseMapper
-        extends ResponseMapper<VerificationResult, VerificationResultResponse> {
-
-    @Override
-    VerificationResultResponse mapDomain2Response(VerificationResult domain);
-
-}
+import org.jspecify.annotations.NullMarked;

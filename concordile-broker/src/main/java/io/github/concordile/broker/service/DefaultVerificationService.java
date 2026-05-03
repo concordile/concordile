@@ -24,7 +24,7 @@ import io.github.concordile.broker.entity.ApplicationEntity;
 import io.github.concordile.broker.entity.VerificationEntity;
 import io.github.concordile.broker.entity.VerificationResultEntity;
 import io.github.concordile.broker.mapper.VerificationEntityMapper;
-import io.github.concordile.broker.mapper.VerificationResultEntityMapper;
+import io.github.concordile.broker.mapper.v1.VerificationResultEntityMapper;
 import io.github.concordile.broker.repository.VerificationRepository;
 import io.github.concordile.broker.repository.VerificationResultRepository;
 import io.github.concordile.broker.service.command.CreateVerificationCommand;

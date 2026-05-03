@@ -14,22 +14,19 @@
  * limitations under the License.
  */
 
-package io.github.concordile.broker.mapper;
+package io.github.concordile.broker.mapper.v1;
 
-import io.github.concordile.broker.api.v1.CreateVerificationRequest;
 import io.github.concordile.broker.config.MapStructConfig;
-import io.github.concordile.broker.service.command.CreateVerificationCommand;
+import io.github.concordile.broker.domain.VerificationResult;
+import io.github.concordile.broker.entity.VerificationResultEntity;
+import io.github.concordile.broker.mapper.EntityMapper;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
 
 @Mapper(config = MapStructConfig.class)
-public interface CreateVerificationRequestMapper
-        extends RequestMapper<CreateVerificationRequest, CreateVerificationCommand> {
+public interface VerificationResultEntityMapper
+        extends EntityMapper<VerificationResultEntity, VerificationResult> {
 
     @Override
-    @Mapping(target = "partyRole", source = "party.role")
-    @Mapping(target = "party", source = "party.application")
-    @Mapping(target = "partyVersion", source = "party.version")
-    CreateVerificationCommand mapRequest2Command(CreateVerificationRequest request);
+    VerificationResult mapEntity2Domain(VerificationResultEntity entity);
 
 }
