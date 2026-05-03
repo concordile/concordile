@@ -26,7 +26,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 @Service
 @Transactional
@@ -60,6 +62,11 @@ class DefaultDeploymentRecordService implements DeploymentRecordService {
                 .build());
 
         return entityMapper.mapEntity2Domain(saved);
+    }
+
+    @Override
+    public List<DeploymentRecordEntity> findAllActiveByTargetId(UUID targetId) {
+        return repository.findAllActiveByTargetId(targetId);
     }
 
 }

@@ -16,17 +16,18 @@
 
 package io.github.concordile.broker.service;
 
-import io.github.concordile.broker.domain.DeploymentRecord;
-import io.github.concordile.broker.entity.DeploymentRecordEntity;
-import io.github.concordile.broker.service.command.CreateDeploymentRecordCommand;
+import io.github.concordile.broker.entity.VerificationResultEntity;
 
 import java.util.List;
 import java.util.UUID;
 
-public interface DeploymentRecordService {
+public interface VerificationResultService {
 
-    DeploymentRecord create(CreateDeploymentRecordCommand command);
-
-    List<DeploymentRecordEntity> findAllActiveByTargetId(UUID targetId);
+    List<VerificationResultEntity> findLatestPerContractForPartyVersions(
+            UUID appIdA,
+            String versionA,
+            UUID appIdB,
+            String versionB
+    );
 
 }
