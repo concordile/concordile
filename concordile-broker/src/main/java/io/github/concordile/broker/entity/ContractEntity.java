@@ -57,8 +57,8 @@ public class ContractEntity {
     @Column("deleted_at")
     private @Nullable Instant deletedAt;
 
-    @Column("producer_id")
-    private UUID producerId;
+    @Column("provider_id")
+    private UUID providerId;
 
     @Column("consumer_id")
     private @Nullable UUID consumerId;

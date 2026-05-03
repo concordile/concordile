@@ -33,20 +33,20 @@ class DefaultContractService implements ContractService {
 
     @Override
     public ContractEntity findOrCreate(
-            UUID producerId,
+            UUID providerId,
             UUID consumerId,
             String path,
             String name
     ) {
         // FIXME: duplicates
-        return contractRepository.findByProducerIdAndConsumerIdAndPathAndName(
-                        producerId,
+        return contractRepository.findByProviderIdAndConsumerIdAndPathAndName(
+                        providerId,
                         consumerId,
                         path,
                         name
                 )
                 .orElseGet(() -> create(
-                        producerId,
+                        providerId,
                         consumerId,
                         path,
                         name
@@ -55,13 +55,13 @@ class DefaultContractService implements ContractService {
 
     @Override
     public ContractEntity create(
-            UUID producerId,
+            UUID providerId,
             UUID consumerId,
             String path,
             String name
     ) {
         var entity = ContractEntity.builder()
-                .producerId(producerId)
+                .providerId(providerId)
                 .consumerId(consumerId)
                 .path(path)
                 .name(name)

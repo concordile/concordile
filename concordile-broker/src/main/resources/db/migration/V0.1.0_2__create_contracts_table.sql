@@ -21,7 +21,7 @@ create table if not exists contracts
     created_at  timestamptz      not null default now(),
     modified_at timestamptz      not null default now(),
     deleted_at  timestamptz      null,
-    producer_id uuid             not null references applications (id),
+    provider_id uuid not null references applications (id),
     consumer_id uuid             null references applications (id),
     path        text             not null,
     name        text             not null

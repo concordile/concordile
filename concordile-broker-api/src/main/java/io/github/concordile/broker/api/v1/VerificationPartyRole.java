@@ -18,7 +18,7 @@ package io.github.concordile.broker.api.v1;
 
 public enum VerificationPartyRole {
 
-    PRODUCER,
+    PROVIDER,
     CONSUMER,
 
 }

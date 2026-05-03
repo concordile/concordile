@@ -19,17 +19,17 @@ package io.github.concordile.gradle.mapper;
 import io.github.concordile.broker.api.v1.CreateVerificationRequest;
 import io.github.concordile.broker.api.v1.VerificationStatus;
 import io.github.concordile.gradle.context.TestContextFactory;
-import io.github.concordile.gradle.model.ProducerVerificationContext;
+import io.github.concordile.gradle.model.ProviderVerificationContext;
 import org.gradle.api.GradleException;
 
 import java.util.Map;
 
-public final class ProducerVerificationRequestMapper {
+public final class ProviderVerificationRequestMapper {
 
     private final TestContextFactory testContextFactory = new TestContextFactory();
 
     public CreateVerificationRequest map(
-            ProducerVerificationContext context,
+            ProviderVerificationContext context,
             Map<String, VerificationStatus> testResults,
             Map<String, Object> verificationContext
     ) {
@@ -65,7 +65,7 @@ public final class ProducerVerificationRequestMapper {
     }
 
     private CreateVerificationRequest.Application toApiApplication(
-            ProducerVerificationContext.Application application
+            ProviderVerificationContext.Application application
     ) {
         return new CreateVerificationRequest.Application(
                 application.groupId(),
@@ -74,7 +74,7 @@ public final class ProducerVerificationRequestMapper {
     }
 
     private VerificationStatus resolveStatus(
-            ProducerVerificationContext.Contract contract,
+            ProviderVerificationContext.Contract contract,
             Map<String, VerificationStatus> testResults
     ) {
         var exactKey = contract.testClassName() + "#" + contract.testMethodName();

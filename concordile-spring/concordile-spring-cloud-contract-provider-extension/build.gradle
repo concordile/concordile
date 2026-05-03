@@ -19,7 +19,7 @@ plugins {
     id 'maven-publish'
 }
 
-description = 'Concordile Spring Cloud Contract Producer Extension'
+description = 'Concordile Spring Cloud Contract Provider Extension'
 
 java {
     toolchain {

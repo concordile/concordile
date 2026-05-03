@@ -15,6 +15,6 @@
  */
 
 @NullMarked
-package io.github.concordile.spring.cloud.contract.producer;
+package io.github.concordile.spring.cloud.contract.provider;
 
 import org.jspecify.annotations.NullMarked;

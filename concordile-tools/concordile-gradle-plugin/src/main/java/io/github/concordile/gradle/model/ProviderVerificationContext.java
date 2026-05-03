@@ -14,32 +14,40 @@
  * limitations under the License.
  */
 
-package io.github.concordile.spring.cloud.contract.api;
+package io.github.concordile.gradle.model;
 
-import java.util.ArrayList;
+import io.github.concordile.broker.api.v1.VerificationPartyRole;
+
 import java.util.List;
 
-public record ProducerContractContext(
-        List<ContractFile> files
+public record ProviderVerificationContext(
+        VerificationPartyRole role,
+        Application application,
+        String version,
+        List<Counterparty> counterparties
 ) {
 
-    public ProducerContractContext merge(ProducerContractContext other) {
-        var mergedFiles = new ArrayList<ContractFile>();
-        mergedFiles.addAll(files);
-        mergedFiles.addAll(other.files());
-        return new ProducerContractContext(mergedFiles);
+    public record Application(
+            String groupId,
+            String name
+    ) {
+    }
+
+    public record Counterparty(
+            Application application,
+            List<ContractFile> files
+    ) {
     }
 
     public record ContractFile(
-            String consumerName,
             String path,
-            String testClassName,
             List<Contract> contracts
     ) {
     }
 
     public record Contract(
             String name,
+            String testClassName,
             String testMethodName
     ) {
     }
