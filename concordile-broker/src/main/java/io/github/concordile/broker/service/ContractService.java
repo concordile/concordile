@@ -18,6 +18,7 @@ package io.github.concordile.broker.service;
 
 import io.github.concordile.broker.entity.ContractEntity;
 
+import java.util.List;
 import java.util.UUID;
 
 public interface ContractService {
@@ -35,5 +36,7 @@ public interface ContractService {
             String path,
             String name
     );
+
+    List<UUID> findIdsBetweenApps(UUID appIdA, UUID appIdB);
 
 }

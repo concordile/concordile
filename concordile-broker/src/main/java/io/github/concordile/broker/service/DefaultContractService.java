@@ -22,6 +22,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -67,6 +68,11 @@ class DefaultContractService implements ContractService {
                 .name(name)
                 .build();
         return repository.save(entity);
+    }
+
+    @Override
+    public List<UUID> findIdsBetweenApps(UUID appIdA, UUID appIdB) {
+        return repository.findContractIdsBetweenApps(appIdA, appIdB);
     }
 
 }

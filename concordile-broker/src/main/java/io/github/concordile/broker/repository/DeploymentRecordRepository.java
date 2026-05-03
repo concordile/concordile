@@ -20,6 +20,7 @@ import io.github.concordile.broker.entity.DeploymentRecordEntity;
 import org.springframework.data.jdbc.repository.query.Query;
 import org.springframework.data.repository.ListCrudRepository;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -40,5 +41,15 @@ public interface DeploymentRecordRepository
             UUID targetId,
             UUID appId
     );
+
+    // language=PostgreSQL
+    @Query("""
+            select *
+            from deployment_records
+            where target_id = :targetId
+              and status = 'ACTIVE'
+              and deleted_at is null
+            """)
+    List<DeploymentRecordEntity> findAllActiveByTargetId(UUID targetId);
 
 }

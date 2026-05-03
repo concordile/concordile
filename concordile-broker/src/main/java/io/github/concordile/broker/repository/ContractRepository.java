@@ -17,8 +17,10 @@
 package io.github.concordile.broker.repository;
 
 import io.github.concordile.broker.entity.ContractEntity;
+import org.springframework.data.jdbc.repository.query.Query;
 import org.springframework.data.repository.ListCrudRepository;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -31,5 +33,18 @@ public interface ContractRepository
             String path,
             String name
     );
+
+    // language=PostgreSQL
+    @Query("""
+            select c.id
+            from contracts c
+            where c.deleted_at is null
+              and c.consumer_id is not null
+              and (
+                (c.provider_id = :appIdA and c.consumer_id = :appIdB)
+                or (c.provider_id = :appIdB and c.consumer_id = :appIdA)
+              )
+            """)
+    List<UUID> findContractIdsBetweenApps(UUID appIdA, UUID appIdB);
 
 }
