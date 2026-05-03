@@ -29,7 +29,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 class DefaultContractService implements ContractService {
 
-    private final ContractRepository contractRepository;
+    private final ContractRepository repository;
 
     @Override
     public ContractEntity findOrCreate(
@@ -39,7 +39,7 @@ class DefaultContractService implements ContractService {
             String name
     ) {
         // FIXME: duplicates
-        return contractRepository.findByProviderIdAndConsumerIdAndPathAndName(
+        return repository.findByProviderIdAndConsumerIdAndPathAndName(
                         providerId,
                         consumerId,
                         path,
@@ -66,7 +66,7 @@ class DefaultContractService implements ContractService {
                 .path(path)
                 .name(name)
                 .build();
-        return contractRepository.save(entity);
+        return repository.save(entity);
     }
 
 }

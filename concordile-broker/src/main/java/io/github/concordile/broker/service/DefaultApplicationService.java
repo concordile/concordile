@@ -27,12 +27,12 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 class DefaultApplicationService implements ApplicationService {
 
-    private final ApplicationRepository applicationRepository;
+    private final ApplicationRepository repository;
 
     @Override
     public ApplicationEntity findOrCreate(String groupId, String name) {
         // FIXME: duplicates
-        return applicationRepository.findByGroupIdAndName(groupId, name)
+        return repository.findByGroupIdAndName(groupId, name)
                 .orElseGet(() -> create(groupId, name));
     }
 
@@ -42,7 +42,7 @@ class DefaultApplicationService implements ApplicationService {
                 .groupId(groupId)
                 .name(name)
                 .build();
-        return applicationRepository.save(entity);
+        return repository.save(entity);
     }
 
 }

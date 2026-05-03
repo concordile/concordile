@@ -32,16 +32,16 @@ public class VerificationController implements VerificationApi {
 
     private final VerificationService service;
 
-    private final CreateVerificationRequestMapper createVerificationRequestMapper;
-    private final VerificationResponseMapper verificationResponseMapper;
+    private final CreateVerificationRequestMapper createRequestMapper;
+    private final VerificationResponseMapper responseMapper;
 
     @Override
     public ResponseEntity<VerificationResponse> createVerification(
             CreateVerificationRequest request
     ) {
-        var command = createVerificationRequestMapper.mapRequest2Command(request);
-        var verification = service.create(command);
-        var response = verificationResponseMapper.mapDomain2Response(verification);
+        var command = createRequestMapper.mapRequest2Command(request);
+        var domain = service.create(command);
+        var response = responseMapper.mapDomain2Response(domain);
         var location = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}")
                 .buildAndExpand(response.id())
