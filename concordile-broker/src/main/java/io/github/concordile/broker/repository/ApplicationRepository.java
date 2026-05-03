@@ -25,6 +25,9 @@ import java.util.UUID;
 public interface ApplicationRepository
         extends ListCrudRepository<ApplicationEntity, UUID> {
 
-    Optional<ApplicationEntity> findByGroupIdAndName(String groupId, String name);
+    Optional<ApplicationEntity> findByGroupIdAndName(
+            String groupId,
+            String name
+    );
 
 }

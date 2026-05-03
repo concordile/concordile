@@ -48,7 +48,7 @@ class DefaultDeploymentTargetService implements DeploymentTargetService {
     @Override
     @Transactional(readOnly = true)
     public DeploymentTarget getByName(String name) {
-        return repository.findByNameAndDeletedAtIsNull(name)
+        return repository.findActiveByName(name)
                 .map(entityMapper::mapEntity2Domain)
                 .orElseThrow(() -> new EntityNotFoundException("Deployment target not found: " + name));
     }

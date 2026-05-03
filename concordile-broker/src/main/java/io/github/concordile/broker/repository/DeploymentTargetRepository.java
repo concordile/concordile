@@ -19,6 +19,7 @@ package io.github.concordile.broker.repository;
 import io.github.concordile.broker.entity.DeploymentTargetEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jdbc.repository.query.Query;
 import org.springframework.data.repository.ListCrudRepository;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
@@ -31,6 +32,13 @@ public interface DeploymentTargetRepository
 
     Page<DeploymentTargetEntity> findAllByDeletedAtIsNull(Pageable pageable);
 
-    Optional<DeploymentTargetEntity> findByNameAndDeletedAtIsNull(String name);
+    // language=PostgreSQL
+    @Query("""
+            select *
+            from deployment_targets
+            where name = :name
+              and deleted_at is null
+            """)
+    Optional<DeploymentTargetEntity> findActiveByName(String name);
 
 }
