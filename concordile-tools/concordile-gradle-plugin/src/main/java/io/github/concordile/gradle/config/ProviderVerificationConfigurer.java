@@ -18,8 +18,8 @@ package io.github.concordile.gradle.config;
 
 import io.github.concordile.gradle.extension.ConcordileConsumerExtension;
 import io.github.concordile.gradle.extension.ConcordileExtension;
-import io.github.concordile.gradle.task.PrepareProducerVerificationContextTask;
-import io.github.concordile.gradle.task.PublishProducerVerificationTask;
+import io.github.concordile.gradle.task.PrepareProviderVerificationContextTask;
+import io.github.concordile.gradle.task.PublishProviderVerificationTask;
 import org.gradle.api.Project;
 import org.gradle.api.file.RegularFile;
 import org.gradle.api.provider.Provider;
@@ -30,13 +30,13 @@ import java.util.stream.Collectors;
 import static io.github.concordile.gradle.ConcordilePluginConstants.CONTRACT_TEST_TASK_NAME;
 import static io.github.concordile.gradle.ConcordilePluginConstants.GENERATE_CONTRACT_TESTS_TASK_NAME;
 import static io.github.concordile.gradle.ConcordilePluginConstants.GROUP_NAME;
-import static io.github.concordile.gradle.ConcordilePluginConstants.PREPARE_PRODUCER_VERIFICATION_CONTEXT_TASK_NAME;
-import static io.github.concordile.gradle.ConcordilePluginConstants.PRODUCER_VERIFICATION_CONTEXT_FILE;
-import static io.github.concordile.gradle.ConcordilePluginConstants.PUBLISH_PRODUCER_VERIFICATION_TASK_NAME;
+import static io.github.concordile.gradle.ConcordilePluginConstants.PREPARE_PROVIDER_VERIFICATION_CONTEXT_TASK_NAME;
+import static io.github.concordile.gradle.ConcordilePluginConstants.PROVIDER_VERIFICATION_CONTEXT_FILE;
+import static io.github.concordile.gradle.ConcordilePluginConstants.PUBLISH_PROVIDER_VERIFICATION_TASK_NAME;
 import static io.github.concordile.gradle.ConcordilePluginConstants.SPRING_CLOUD_CONTRACT_PLUGIN_ID;
-import static io.github.concordile.gradle.ConcordilePluginConstants.SPRING_CLOUD_CONTRACT_PRODUCER_EXTENSION_GAV;
+import static io.github.concordile.gradle.ConcordilePluginConstants.SPRING_CLOUD_CONTRACT_PROVIDER_EXTENSION_GAV;
 
-public final class ProducerVerificationConfigurer {
+public final class ProviderVerificationConfigurer {
 
     private static final String GENERATED_CONTRACT_TESTS_DIR = "generated-test-sources";
     private static final String CONCORDILE_CONTEXT_FILE_PATTERN = "**/*.concordile.json";
@@ -46,7 +46,7 @@ public final class ProducerVerificationConfigurer {
 
     private final ConcordileExtension extension;
 
-    public ProducerVerificationConfigurer(
+    public ProviderVerificationConfigurer(
             Project project,
             ConcordileExtension extension
     ) {
@@ -55,25 +55,25 @@ public final class ProducerVerificationConfigurer {
     }
 
     public void configure() {
-        var producerContextFile = project.getLayout()
+        var providerContextFile = project.getLayout()
                 .getBuildDirectory()
-                .file(PRODUCER_VERIFICATION_CONTEXT_FILE);
+                .file(PROVIDER_VERIFICATION_CONTEXT_FILE);
 
-        var prepareProducerContext = registerPrepareProducerContextTask(producerContextFile);
+        var prepareProviderContext = registerPrepareProviderContextTask(providerContextFile);
 
-        var publishProducerVerification = registerPublishProducerVerificationTask(
-                producerContextFile,
-                prepareProducerContext
+        var publishProviderVerification = registerPublishProviderVerificationTask(
+                providerContextFile,
+                prepareProviderContext
         );
 
-        configureProducerSpringCloudContractIntegration(
-                prepareProducerContext,
-                publishProducerVerification
+        configureProviderSpringCloudContractIntegration(
+                prepareProviderContext,
+                publishProviderVerification
         );
     }
 
-    private TaskProvider<PrepareProducerVerificationContextTask> registerPrepareProducerContextTask(
-            Provider<RegularFile> producerContextFile
+    private TaskProvider<PrepareProviderVerificationContextTask> registerPrepareProviderContextTask(
+            Provider<RegularFile> providerContextFile
     ) {
         var generatedContractTestsDirectory = project.getLayout()
                 .getBuildDirectory()
@@ -86,14 +86,14 @@ public final class ProducerVerificationConfigurer {
         );
 
         return project.getTasks().register(
-                PREPARE_PRODUCER_VERIFICATION_CONTEXT_TASK_NAME,
-                PrepareProducerVerificationContextTask.class,
+                PREPARE_PROVIDER_VERIFICATION_CONTEXT_TASK_NAME,
+                PrepareProviderVerificationContextTask.class,
                 task -> {
                     task.setGroup(GROUP_NAME);
-                    task.setDescription("Prepares Concordile producer verification context from SCC contracts.");
+                    task.setDescription("Prepares Concordile provider verification context from SCC contracts.");
 
                     task.getRawContextFiles().from(rawContextFiles);
-                    task.getContextFile().set(producerContextFile);
+                    task.getContextFile().set(providerContextFile);
 
                     task.getApplicationGroupId().set(extension.getApplication().getGroupId());
                     task.getApplicationName().set(extension.getApplication().getName());
@@ -110,19 +110,19 @@ public final class ProducerVerificationConfigurer {
         );
     }
 
-    private TaskProvider<PublishProducerVerificationTask> registerPublishProducerVerificationTask(
-            Provider<RegularFile> producerContextFile,
-            TaskProvider<PrepareProducerVerificationContextTask> prepareProducerContext
+    private TaskProvider<PublishProviderVerificationTask> registerPublishProviderVerificationTask(
+            Provider<RegularFile> providerContextFile,
+            TaskProvider<PrepareProviderVerificationContextTask> prepareProviderContext
     ) {
         return project.getTasks().register(
-                PUBLISH_PRODUCER_VERIFICATION_TASK_NAME,
-                PublishProducerVerificationTask.class,
+                PUBLISH_PROVIDER_VERIFICATION_TASK_NAME,
+                PublishProviderVerificationTask.class,
                 task -> {
                     task.setGroup(GROUP_NAME);
-                    task.setDescription("Publishes Concordile producer verification results.");
+                    task.setDescription("Publishes Concordile provider verification results.");
 
-                    task.dependsOn(prepareProducerContext);
-                    task.getContextFile().set(producerContextFile);
+                    task.dependsOn(prepareProviderContext);
+                    task.getContextFile().set(providerContextFile);
                     task.getBrokerUrl().set(extension.getBroker().getUrl());
                     task.getTestResultsDirectory().set(
                             project.getLayout().getBuildDirectory().dir(CONTRACT_TEST_RESULTS_DIR)
@@ -131,21 +131,21 @@ public final class ProducerVerificationConfigurer {
         );
     }
 
-    private void configureProducerSpringCloudContractIntegration(
-            TaskProvider<PrepareProducerVerificationContextTask> prepareProducerContext,
-            TaskProvider<PublishProducerVerificationTask> publishProducerVerification
+    private void configureProviderSpringCloudContractIntegration(
+            TaskProvider<PrepareProviderVerificationContextTask> prepareProviderContext,
+            TaskProvider<PublishProviderVerificationTask> publishProviderVerification
     ) {
         project.getPluginManager().withPlugin(SPRING_CLOUD_CONTRACT_PLUGIN_ID, plugin -> {
             project.getDependencies().add(
                     "contractTestImplementation",
-                    SPRING_CLOUD_CONTRACT_PRODUCER_EXTENSION_GAV
+                    SPRING_CLOUD_CONTRACT_PROVIDER_EXTENSION_GAV
             );
 
-            prepareProducerContext.configure(task ->
+            prepareProviderContext.configure(task ->
                     task.dependsOn(GENERATE_CONTRACT_TESTS_TASK_NAME)
             );
 
-            publishProducerVerification.configure(task ->
+            publishProviderVerification.configure(task ->
                     task.dependsOn(CONTRACT_TEST_TASK_NAME)
             );
         });

@@ -20,7 +20,7 @@ import io.github.concordile.broker.api.v1.VerificationPartyRole;
 
 import java.util.List;
 
-public record ProducerVerificationContext(
+public record ProviderVerificationContext(
         VerificationPartyRole role,
         Application application,
         String version,

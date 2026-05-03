@@ -17,7 +17,7 @@
 package io.github.concordile.gradle.task;
 
 import io.github.concordile.broker.api.v1.VerificationPartyRole;
-import io.github.concordile.gradle.model.ProducerVerificationContext;
+import io.github.concordile.gradle.model.ProviderVerificationContext;
 import io.github.concordile.spring.cloud.contract.api.ProviderContractContext;
 import org.gradle.api.DefaultTask;
 import org.gradle.api.GradleException;
@@ -40,7 +40,7 @@ import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-public abstract class PrepareProducerVerificationContextTask extends DefaultTask {
+public abstract class PrepareProviderVerificationContextTask extends DefaultTask {
 
     private final JsonMapper jsonMapper = new JsonMapper();
 
@@ -72,7 +72,7 @@ public abstract class PrepareProducerVerificationContextTask extends DefaultTask
 
         if (rawContextFiles.isEmpty()) {
             throw new GradleException("""
-                    Concordile producer raw context files were not found.
+                    Concordile provider raw context files were not found.
                     
                     Expected files:
                     build/generated-test-sources/**/*.concordile.json
@@ -81,7 +81,7 @@ public abstract class PrepareProducerVerificationContextTask extends DefaultTask
                     1. The 'org.springframework.cloud.contract' plugin is applied.
                     2. The 'generateContractTests' task runs before this task.
                     3. ConcordileSingleTestGenerator is loaded by SCC.
-                    4. There are producer contracts to generate.
+                    4. There are provider contracts to generate.
                     """);
         }
 
@@ -92,9 +92,9 @@ public abstract class PrepareProducerVerificationContextTask extends DefaultTask
             rawContext = rawContext.merge(nextContext);
         }
 
-        var context = new ProducerVerificationContext(
+        var context = new ProviderVerificationContext(
                 VerificationPartyRole.PROVIDER,
-                new ProducerVerificationContext.Application(
+                new ProviderVerificationContext.Application(
                         getApplicationGroupId().get(),
                         getApplicationName().get()
                 ),
@@ -108,15 +108,15 @@ public abstract class PrepareProducerVerificationContextTask extends DefaultTask
         jsonMapper.writerWithDefaultPrettyPrinter().writeValue(outputFile, context);
     }
 
-    private List<ProducerVerificationContext.Counterparty> createCounterparties(
+    private List<ProviderVerificationContext.Counterparty> createCounterparties(
             ProviderContractContext rawContext
     ) {
         var consumerGroupIds = getConsumerGroupIds().get();
-        var filesByConsumer = new LinkedHashMap<String, List<ProducerVerificationContext.ContractFile>>();
+        var filesByConsumer = new LinkedHashMap<String, List<ProviderVerificationContext.ContractFile>>();
 
         for (var rawFile : rawContext.files()) {
             var contracts = rawFile.contracts().stream()
-                    .map(contract -> new ProducerVerificationContext.Contract(
+                    .map(contract -> new ProviderVerificationContext.Contract(
                             contract.name(),
                             rawFile.testClassName(),
                             contract.testMethodName()
@@ -124,10 +124,10 @@ public abstract class PrepareProducerVerificationContextTask extends DefaultTask
                     .toList();
 
             filesByConsumer.computeIfAbsent(rawFile.consumerName(), ignored -> new ArrayList<>())
-                    .add(new ProducerVerificationContext.ContractFile(rawFile.path(), contracts));
+                    .add(new ProviderVerificationContext.ContractFile(rawFile.path(), contracts));
         }
 
-        var counterparties = new ArrayList<ProducerVerificationContext.Counterparty>();
+        var counterparties = new ArrayList<ProviderVerificationContext.Counterparty>();
 
         for (var entry : filesByConsumer.entrySet()) {
             var consumerName = entry.getKey();
@@ -149,8 +149,8 @@ public abstract class PrepareProducerVerificationContextTask extends DefaultTask
                         """.formatted(consumerName, consumerName));
             }
 
-            counterparties.add(new ProducerVerificationContext.Counterparty(
-                    new ProducerVerificationContext.Application(groupId, consumerName),
+            counterparties.add(new ProviderVerificationContext.Counterparty(
+                    new ProviderVerificationContext.Application(groupId, consumerName),
                     entry.getValue()
             ));
         }

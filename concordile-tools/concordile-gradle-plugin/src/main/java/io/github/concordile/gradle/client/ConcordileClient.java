@@ -49,7 +49,7 @@ public final class ConcordileClient {
 
         if (response.statusCode() < 200 || response.statusCode() >= 300) {
             throw new GradleException("""
-                    Failed to publish Concordile producer verification.
+                    Failed to publish Concordile verification.
                     
                     Status: %s
                     Body: %s

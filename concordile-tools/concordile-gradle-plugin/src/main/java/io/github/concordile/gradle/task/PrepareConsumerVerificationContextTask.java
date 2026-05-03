@@ -95,7 +95,7 @@ public abstract class PrepareConsumerVerificationContextTask extends DefaultTask
             throw new GradleException("""
                     Cannot find WireMock mappings in test runtime classpath.
                     
-                    Expected producer stubs jar on testRuntimeClasspath, for example:
+                    Expected provider stubs jar on testRuntimeClasspath, for example:
                     service-stubs.jar
                     """);
         }
@@ -110,7 +110,7 @@ public abstract class PrepareConsumerVerificationContextTask extends DefaultTask
 
                 if (mapping == null) {
                     throw new GradleException(
-                            "Cannot find WireMock mapping '%s' in producer stubs jars".formatted(mappingId)
+                            "Cannot find WireMock mapping '%s' in provider stubs jars".formatted(mappingId)
                     );
                 }
 

@@ -18,8 +18,8 @@ package io.github.concordile.gradle.task;
 
 import io.github.concordile.gradle.client.ConcordileClient;
 import io.github.concordile.gradle.context.VerificationContextFactory;
-import io.github.concordile.gradle.mapper.ProducerVerificationRequestMapper;
-import io.github.concordile.gradle.model.ProducerVerificationContext;
+import io.github.concordile.gradle.mapper.ProviderVerificationRequestMapper;
+import io.github.concordile.gradle.model.ProviderVerificationContext;
 import io.github.concordile.gradle.testresult.JUnitXmlTestResultReader;
 import org.gradle.api.DefaultTask;
 import org.gradle.api.file.DirectoryProperty;
@@ -31,13 +31,13 @@ import org.gradle.api.tasks.InputFile;
 import org.gradle.api.tasks.TaskAction;
 import tools.jackson.databind.json.JsonMapper;
 
-public abstract class PublishProducerVerificationTask extends DefaultTask {
+public abstract class PublishProviderVerificationTask extends DefaultTask {
 
     private final JsonMapper jsonMapper = new JsonMapper();
 
     private final JUnitXmlTestResultReader testResultReader = new JUnitXmlTestResultReader();
 
-    private final ProducerVerificationRequestMapper requestMapper = new ProducerVerificationRequestMapper();
+    private final ProviderVerificationRequestMapper requestMapper = new ProviderVerificationRequestMapper();
 
     private final VerificationContextFactory contextFactory = new VerificationContextFactory();
 
@@ -56,7 +56,7 @@ public abstract class PublishProducerVerificationTask extends DefaultTask {
     public void publish() throws Exception {
         var context = jsonMapper.readValue(
                 getContextFile().get().getAsFile(),
-                ProducerVerificationContext.class
+                ProviderVerificationContext.class
         );
 
         var testResults = testResultReader.read(
