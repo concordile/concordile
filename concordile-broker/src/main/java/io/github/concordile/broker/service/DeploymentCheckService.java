@@ -14,7 +14,13 @@
  * limitations under the License.
  */
 
-@NullUnmarked
-package io.github.concordile.broker.mapper.v1;
+package io.github.concordile.broker.service;
 
-import org.jspecify.annotations.NullUnmarked;
+import io.github.concordile.broker.domain.DeploymentCheck;
+import io.github.concordile.broker.service.command.CreateDeploymentCheckCommand;
+
+public interface DeploymentCheckService {
+
+    DeploymentCheck create(CreateDeploymentCheckCommand command);
+
+}

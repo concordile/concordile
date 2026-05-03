@@ -14,7 +14,22 @@
  * limitations under the License.
  */
 
-@NullUnmarked
-package io.github.concordile.broker.mapper.v1;
+package io.github.concordile.broker.api.v1;
 
-import org.jspecify.annotations.NullUnmarked;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+
+public record CreateDeploymentCheckRequest(
+        @NotBlank String target,
+        @NotNull @Valid Application application,
+        @NotBlank String version
+) {
+
+    public record Application(
+            @NotBlank String groupId,
+            @NotBlank String name
+    ) {
+    }
+
+}

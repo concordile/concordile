@@ -14,7 +14,19 @@
  * limitations under the License.
  */
 
-@NullUnmarked
 package io.github.concordile.broker.mapper.v1;
 
-import org.jspecify.annotations.NullUnmarked;
+import io.github.concordile.broker.api.v1.CreateDeploymentCheckRequest;
+import io.github.concordile.broker.config.MapStructConfig;
+import io.github.concordile.broker.mapper.RequestMapper;
+import io.github.concordile.broker.service.command.CreateDeploymentCheckCommand;
+import org.mapstruct.Mapper;
+
+@Mapper(config = MapStructConfig.class)
+public interface CreateDeploymentCheckRequestMapper
+        extends RequestMapper<CreateDeploymentCheckRequest, CreateDeploymentCheckCommand> {
+
+    @Override
+    CreateDeploymentCheckCommand mapRequest2Command(CreateDeploymentCheckRequest request);
+
+}

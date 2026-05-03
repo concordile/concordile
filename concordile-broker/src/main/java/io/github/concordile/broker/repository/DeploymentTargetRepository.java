@@ -22,6 +22,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.ListCrudRepository;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
+import java.util.Optional;
 import java.util.UUID;
 
 public interface DeploymentTargetRepository
@@ -29,5 +30,7 @@ public interface DeploymentTargetRepository
         PagingAndSortingRepository<DeploymentTargetEntity, UUID> {
 
     Page<DeploymentTargetEntity> findAllByDeletedAtIsNull(Pageable pageable);
+
+    Optional<DeploymentTargetEntity> findByNameAndDeletedAtIsNull(String name);
 
 }

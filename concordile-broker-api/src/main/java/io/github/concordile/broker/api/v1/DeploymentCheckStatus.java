@@ -14,7 +14,12 @@
  * limitations under the License.
  */
 
-@NullUnmarked
-package io.github.concordile.broker.mapper.v1;
+package io.github.concordile.broker.api.v1;
 
-import org.jspecify.annotations.NullUnmarked;
+public enum DeploymentCheckStatus {
+
+    READY,
+    BLOCKED,
+    UNKNOWN,
+
+}

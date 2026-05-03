@@ -14,7 +14,12 @@
  * limitations under the License.
  */
 
-@NullUnmarked
-package io.github.concordile.broker.mapper.v1;
+package io.github.concordile.broker.domain;
 
-import org.jspecify.annotations.NullUnmarked;
+import java.util.UUID;
+
+public record DeploymentCheck(
+        UUID id,
+        DeploymentCheckStatus status
+) {
+}
