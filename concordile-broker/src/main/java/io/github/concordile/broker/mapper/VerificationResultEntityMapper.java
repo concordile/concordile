@@ -14,12 +14,11 @@
  * limitations under the License.
  */
 
-package io.github.concordile.broker.mapper.v1;
+package io.github.concordile.broker.mapper;
 
 import io.github.concordile.broker.config.MapStructConfig;
 import io.github.concordile.broker.domain.VerificationResult;
 import io.github.concordile.broker.entity.VerificationResultEntity;
-import io.github.concordile.broker.mapper.EntityMapper;
 import org.mapstruct.Mapper;
 
 @Mapper(config = MapStructConfig.class)
