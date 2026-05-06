@@ -16,10 +16,13 @@
 
 package io.github.concordile.broker.api.v1;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+@Schema(name = "Verification")
 public record VerificationResponse(
         UUID id,
         VerificationPartyRole partyRole,

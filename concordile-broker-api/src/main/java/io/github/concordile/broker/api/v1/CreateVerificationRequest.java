@@ -16,6 +16,7 @@
 
 package io.github.concordile.broker.api.v1;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
@@ -25,12 +26,14 @@ import org.jspecify.annotations.Nullable;
 import java.util.List;
 import java.util.Map;
 
+@Schema(name = "CreateVerification")
 public record CreateVerificationRequest(
         @NotNull @Valid Party party,
         @Nullable Map<String, Object> context,
         @NotEmpty List<@Valid Counterparty> counterparties
 ) {
 
+    @Schema(name = "CreateVerificationParty")
     public record Party(
             @NotNull VerificationPartyRole role,
             @NotNull @Valid Application application,
@@ -38,6 +41,7 @@ public record CreateVerificationRequest(
     ) {
     }
 
+    @Schema(name = "CreateVerificationCounterparty")
     public record Counterparty(
             @NotNull @Valid Application application,
             @Nullable String version,
@@ -45,18 +49,21 @@ public record CreateVerificationRequest(
     ) {
     }
 
+    @Schema(name = "CreateVerificationApplication")
     public record Application(
             @NotBlank String groupId,
             @NotBlank String name
     ) {
     }
 
+    @Schema(name = "CreateVerificationContractFile")
     public record ContractFile(
             @NotBlank String path,
             @NotEmpty List<@Valid ContractResult> contracts
     ) {
     }
 
+    @Schema(name = "CreateVerificationContractResult")
     public record ContractResult(
             @NotBlank String name,
             @NotNull VerificationStatus status,

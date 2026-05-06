@@ -14,20 +14,7 @@
  * limitations under the License.
  */
 
-package io.github.concordile.broker.api.v1;
+@NullMarked
+package io.github.concordile.broker.controller.annotation;
 
-import io.swagger.v3.oas.annotations.media.Schema;
-import org.jspecify.annotations.Nullable;
-
-import java.util.Map;
-import java.util.UUID;
-
-@Schema(name = "VerificationResult")
-public record VerificationResultResponse(
-        UUID id,
-        UUID contractId,
-        @Nullable String counterpartyVersion,
-        VerificationStatus status,
-        Map<String, Object> context
-) {
-}
+import org.jspecify.annotations.NullMarked;

@@ -16,8 +16,11 @@
 
 package io.github.concordile.broker.api.v1;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 import java.util.UUID;
 
+@Schema(name = "DeploymentCheck")
 public record DeploymentCheckResponse(
         UUID id,
         DeploymentCheckStatus status

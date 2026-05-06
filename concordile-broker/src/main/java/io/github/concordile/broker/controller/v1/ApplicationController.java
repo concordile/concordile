@@ -40,7 +40,7 @@ public class ApplicationController implements ApplicationApi {
     private final ApplicationItemResponseMapper itemResponseMapper;
 
     @Override
-    public ResponseEntity<PagedModel<ApplicationItemResponse>> findAllApplications(
+    public ResponseEntity<PagedModel<ApplicationItemResponse>> searchApplications(
             @Nullable String query,
             @Nullable VerificationStatus verificationStatus,
             @Nullable DeploymentCheckStatus deploymentCheckStatus,

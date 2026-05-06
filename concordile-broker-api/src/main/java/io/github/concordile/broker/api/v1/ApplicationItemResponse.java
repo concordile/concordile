@@ -16,11 +16,13 @@
 
 package io.github.concordile.broker.api.v1;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.jspecify.annotations.Nullable;
 
 import java.time.Instant;
 import java.util.UUID;
 
+@Schema(name = "ApplicationItem")
 public record ApplicationItemResponse(
         UUID id,
         String groupId,

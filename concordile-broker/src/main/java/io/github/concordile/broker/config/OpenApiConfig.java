@@ -14,35 +14,25 @@
  * limitations under the License.
  */
 
-plugins {
-    id 'java-library'
-    id 'maven-publish'
-}
+package io.github.concordile.broker.config;
 
-description = 'Concordile Broker API'
+import io.swagger.v3.core.jackson.ModelResolver;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.info.Info;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
-java {
-    toolchain {
-        languageVersion = JavaLanguageVersion.of(17)
+@Configuration
+public class OpenApiConfig {
+
+    static {
+        ModelResolver.enumsAsRef = true;
     }
-    withSourcesJar()
-    withJavadocJar()
-}
 
-repositories {
-    mavenCentral()
-}
-
-dependencies {
-    api "org.jspecify:jspecify:${jspecifyVersion}"
-    api "jakarta.validation:jakarta.validation-api:${jakartaValidationVersion}"
-    api "io.swagger.core.v3:swagger-annotations-jakarta:${swaggerAnnotationsVersion}"
-}
-
-publishing {
-    publications {
-        brokerApiLib(MavenPublication) {
-            from components.java
-        }
+    @Bean
+    public OpenAPI openApi() {
+        return new OpenAPI().info(new Info()
+                .title("Concordile API"));
     }
+
 }

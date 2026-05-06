@@ -19,7 +19,11 @@ package io.github.concordile.broker.controller.v1;
 import io.github.concordile.broker.api.v1.ApplicationItemResponse;
 import io.github.concordile.broker.api.v1.DeploymentCheckStatus;
 import io.github.concordile.broker.api.v1.VerificationStatus;
+import io.github.concordile.broker.controller.annotation.Json200ApiResponse;
+import io.github.concordile.broker.controller.annotation.Problem400ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.jspecify.annotations.Nullable;
+import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.data.web.PagedModel;
@@ -28,18 +32,21 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+@Tag(name = "applications")
 @RequestMapping("/api/v1/applications")
 public interface ApplicationApi {
 
+    @Json200ApiResponse
+    @Problem400ApiResponse
     @GetMapping
-    ResponseEntity<PagedModel<ApplicationItemResponse>> findAllApplications(
+    ResponseEntity<PagedModel<ApplicationItemResponse>> searchApplications(
             @RequestParam(required = false)
             @Nullable String query,
             @RequestParam(required = false)
             @Nullable VerificationStatus verificationStatus,
             @RequestParam(required = false)
             @Nullable DeploymentCheckStatus deploymentCheckStatus,
-            @PageableDefault(size = 20)
+            @ParameterObject @PageableDefault(size = 20)
             Pageable pageable
     );
 

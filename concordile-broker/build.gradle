@@ -16,8 +16,9 @@
 
 plugins {
     id 'java'
-    id 'org.springframework.boot' version '4.0.1'
-    id 'io.spring.dependency-management' version '1.1.7'
+    id 'org.springframework.boot' version "${springBootPluginVersion}"
+    id 'io.spring.dependency-management' version "${springDepManPluginVersion}"
+    id 'org.springdoc.openapi-gradle-plugin' version "${springdocPluginVersion}"
 }
 
 description = 'Concordile Broker'
@@ -40,6 +41,7 @@ repositories {
 
 dependencies {
     implementation project(':concordile-broker-api')
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
     implementation 'org.springframework.boot:spring-boot-starter-webmvc'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
@@ -47,10 +49,13 @@ dependencies {
     implementation 'org.flywaydb:flyway-database-postgresql'
     developmentOnly 'org.springframework.boot:spring-boot-docker-compose'
     implementation 'org.postgresql:postgresql'
+    runtimeOnly 'com.h2database:h2'
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
     implementation "org.mapstruct:mapstruct:${mapstructVersion}"
     annotationProcessor "org.mapstruct:mapstruct-processor:${mapstructVersion}"
+    implementation "org.springdoc:springdoc-openapi-starter-webmvc-ui:${springDocVersion}"
+    testImplementation 'org.springframework.boot:spring-boot-starter-actuator-test'
     testImplementation 'org.springframework.boot:spring-boot-starter-webmvc-test'
     testImplementation 'org.springframework.boot:spring-boot-starter-data-jdbc-test'
     testImplementation 'org.springframework.boot:spring-boot-starter-flyway-test'
@@ -59,4 +64,12 @@ dependencies {
 
 tasks.named('test') {
     useJUnitPlatform()
+}
+
+openApi {
+    apiDocsUrl.set('http://localhost:29090/actuator/openapi')
+    customBootRun {
+        environment['SPRING_PROFILES_ACTIVE'] = 'openapi'
+        environment['SPRING_CONFIG_ADDITIONAL_LOCATION'] = "file:${projectDir}/config/"
+    }
 }

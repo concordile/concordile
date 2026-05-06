@@ -1,3 +1,21 @@
+# https://docs.spring.io/spring-boot/appendix/application-properties/index.html
 spring:
   application:
     name: concordile-broker
+  mvc:
+    problem-details:
+      enabled: true
+
+server:
+  port: 8080
+
+management:
+  server:
+    port: 9090
+
+springdoc:
+  use-management-port: true
+  api-docs:
+    enabled: false
+  swagger-ui:
+    enabled: false

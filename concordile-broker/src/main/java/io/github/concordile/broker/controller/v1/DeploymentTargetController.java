@@ -38,7 +38,7 @@ public class DeploymentTargetController implements DeploymentTargetApi {
     private final DeploymentTargetResponseMapper responseMapper;
 
     @Override
-    public ResponseEntity<PagedModel<DeploymentTargetResponse>> findAllDeploymentTargets(
+    public ResponseEntity<PagedModel<DeploymentTargetResponse>> searchDeploymentTargets(
             Pageable pageable
     ) {
         var page = service.findAll(pageable);

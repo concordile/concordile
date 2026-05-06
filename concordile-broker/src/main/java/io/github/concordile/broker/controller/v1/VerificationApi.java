@@ -18,15 +18,21 @@ package io.github.concordile.broker.controller.v1;
 
 import io.github.concordile.broker.api.v1.CreateVerificationRequest;
 import io.github.concordile.broker.api.v1.VerificationResponse;
+import io.github.concordile.broker.controller.annotation.Json201ApiResponse;
+import io.github.concordile.broker.controller.annotation.Problem400ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+@Tag(name = "verifications")
 @RequestMapping("/api/v1/verifications")
 public interface VerificationApi {
 
+    @Json201ApiResponse
+    @Problem400ApiResponse
     @PostMapping
     ResponseEntity<VerificationResponse> createVerification(
             @Valid @RequestBody CreateVerificationRequest request

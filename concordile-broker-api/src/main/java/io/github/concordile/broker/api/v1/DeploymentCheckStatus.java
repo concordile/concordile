@@ -16,6 +16,9 @@
 
 package io.github.concordile.broker.api.v1;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
+@Schema(name = "DeploymentCheckStatus")
 public enum DeploymentCheckStatus {
 
     READY,

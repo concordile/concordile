@@ -16,9 +16,12 @@
 
 package io.github.concordile.broker.api.v1;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 import java.util.Map;
 import java.util.UUID;
 
+@Schema(name = "DeploymentTarget")
 public record DeploymentTargetResponse(
         UUID id,
         String name,

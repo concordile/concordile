@@ -1,4 +1,15 @@
 spring:
-  docker:
-    compose:
-      lifecycle-management: start_only
+  profiles:
+    default: local
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+
+springdoc:
+  api-docs:
+    enabled: true
+  swagger-ui:
+    enabled: true

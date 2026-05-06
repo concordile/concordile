@@ -16,11 +16,13 @@
 
 package io.github.concordile.broker.api.v1;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import org.jspecify.annotations.Nullable;
 
 import java.util.Map;
 
+@Schema(name = "CreateDeploymentTarget")
 public record CreateDeploymentTargetRequest(
         @NotBlank String name,
         @Nullable Map<String, Object> context

@@ -14,20 +14,17 @@
  * limitations under the License.
  */
 
-package io.github.concordile.broker.api.v1;
+package io.github.concordile.broker.controller.annotation;
 
-import io.swagger.v3.oas.annotations.media.Schema;
-import org.jspecify.annotations.Nullable;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 
-import java.util.Map;
-import java.util.UUID;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
-@Schema(name = "VerificationResult")
-public record VerificationResultResponse(
-        UUID id,
-        UUID contractId,
-        @Nullable String counterpartyVersion,
-        VerificationStatus status,
-        Map<String, Object> context
-) {
+@Target({ElementType.METHOD, ElementType.TYPE, ElementType.ANNOTATION_TYPE})
+@Retention(RetentionPolicy.RUNTIME)
+@ApiResponse(responseCode = "200")
+public @interface Json200ApiResponse {
 }
