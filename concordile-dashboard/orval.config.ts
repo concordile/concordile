@@ -14,25 +14,30 @@
  * limitations under the License.
  */
 
-import tailwindcss from '@tailwindcss/vite'
-import react from '@vitejs/plugin-react'
-import { resolve } from 'node:path'
-import { defineConfig } from 'vite'
+import { defineConfig } from 'orval'
 
-// https://vite.dev/config/
 export default defineConfig({
-  plugins: [react(), tailwindcss()],
-  resolve: {
-    alias: {
-      '@': resolve(__dirname, './src'),
+  concordileBroker: {
+    input: {
+      target: '../concordile-broker/build/openapi.json',
     },
-  },
-  server: {
-    host: true,
-    proxy: {
-      '^(/api)': {
-        target: 'http://localhost:8080',
-        changeOrigin: true,
+    output: {
+      client: 'react-query',
+      mode: 'tags-split',
+      clean: true,
+      workspace: 'src/shared/api',
+      target: 'generated',
+      schemas: 'generated/models',
+      httpClient: 'fetch',
+      formatter: 'prettier',
+      override: {
+        mutator: {
+          path: 'orval.mutator.ts',
+          name: 'request',
+        },
+        fetch: {
+          includeHttpResponseReturnType: false,
+        },
       },
     },
   },

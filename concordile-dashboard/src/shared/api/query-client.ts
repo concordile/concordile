@@ -14,23 +14,14 @@
  * limitations under the License.
  */
 
-import type { PropsWithChildren } from 'react'
+import { QueryClient } from '@tanstack/react-query'
 
-import { QueryClientProvider } from '@tanstack/react-query'
-
-import { queryClient } from '@/shared/api/query-client'
-import { TooltipProvider } from '@/shared/ui/kit/tooltip'
-
-import { ThemeProvider } from './theme'
-
-export function AppProviders({ children }: PropsWithChildren) {
-  return (
-    <ThemeProvider>
-      <TooltipProvider>
-        <QueryClientProvider client={queryClient}>
-          {children}
-        </QueryClientProvider>
-      </TooltipProvider>
-    </ThemeProvider>
-  )
-}
+export const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
+      staleTime: 30_000,
+      retry: false,
+    },
+  },
+})
