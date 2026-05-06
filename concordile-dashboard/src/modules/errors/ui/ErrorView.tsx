@@ -28,7 +28,7 @@ export function ErrorView({ title, message }: ErrorViewProps) {
     <main>
       <h1>{title}</h1>
       <p>{message}</p>
-      <Link to={routes.dashboard}>Go to dashboard</Link>
+      <Link to={routes.overview}>Go to dashboard</Link>
     </main>
   )
 }

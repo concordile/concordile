@@ -14,16 +14,30 @@
  * limitations under the License.
  */
 
-import type { PropsWithChildren } from 'react'
+import * as React from 'react'
 
-import { TooltipProvider } from '@/shared/ui/kit/tooltip'
+import { Separator as SeparatorPrimitive } from 'radix-ui'
 
-import { ThemeProvider } from './theme'
+import { cn } from '@/shared/lib/ui-kit-utils'
 
-export function AppProviders({ children }: PropsWithChildren) {
+function Separator({
+  className,
+  orientation = 'horizontal',
+  decorative = true,
+  ...props
+}: React.ComponentProps<typeof SeparatorPrimitive.Root>) {
   return (
-    <ThemeProvider>
-      <TooltipProvider>{children}</TooltipProvider>
-    </ThemeProvider>
+    <SeparatorPrimitive.Root
+      data-slot="separator"
+      decorative={decorative}
+      orientation={orientation}
+      className={cn(
+        'shrink-0 bg-border data-horizontal:h-px data-horizontal:w-full data-vertical:w-px data-vertical:self-stretch',
+        className,
+      )}
+      {...props}
+    />
   )
 }
+
+export { Separator }

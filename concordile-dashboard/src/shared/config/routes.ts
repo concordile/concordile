@@ -16,10 +16,22 @@
 
 export const routes = {
   login: '/login',
-  dashboard: '/',
+
+  overview: '/',
+
   applications: '/applications',
   applicationDetails: (applicationId: string) =>
     `/applications/${applicationId}`,
+
+  contracts: '/contracts',
+  contractDetails: (contractId: string) => `/contracts/${contractId}`,
+
   verifications: '/verifications',
-  admin: '/admin',
+  verificationDetails: (verificationId: string) =>
+    `/verifications/${verificationId}`,
+
+  deployments: '/deployments',
+  deploymentDetails: (deploymentId: string) => `/deployments/${deploymentId}`,
+  deploymentTargets: `/deployments/targets`,
+  deploymentChecks: `/deployments/checks`,
 } as const

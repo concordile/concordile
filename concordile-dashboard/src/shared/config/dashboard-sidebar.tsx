@@ -14,18 +14,25 @@
  * limitations under the License.
  */
 
-import { Outlet } from 'react-router-dom'
+import { HouseIcon, RowsIcon, SealCheckIcon } from '@phosphor-icons/react'
 
-export function AuthLayout() {
-  return (
-    <div>
-      <header>
-        <strong>Concordile</strong>
-      </header>
+import { routes } from '@/shared/config/routes'
+import type { NavMainItem } from '@/shared/ui/nav-main'
 
-      <main>
-        <Outlet />
-      </main>
-    </div>
-  )
-}
+export const dashboardSidebarNavItems: NavMainItem[] = [
+  {
+    title: 'Overview',
+    url: routes.overview,
+    icon: <HouseIcon />,
+  },
+  {
+    title: 'Applications',
+    url: routes.applications,
+    icon: <RowsIcon />,
+  },
+  {
+    title: 'Verifications',
+    url: routes.verifications,
+    icon: <SealCheckIcon />,
+  },
+]

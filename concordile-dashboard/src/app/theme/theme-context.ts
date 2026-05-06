@@ -16,7 +16,7 @@
 
 import { createContext } from 'react'
 
-import type { ThemeProviderState } from './types'
+import type { ThemeProviderState } from './theme-types'
 
 export const ThemeProviderContext = createContext<ThemeProviderState | null>(
   null,

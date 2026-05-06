@@ -14,11 +14,18 @@
  * limitations under the License.
  */
 
-export function LoginPage() {
-  return (
-    <main>
-      <h1>Sign in</h1>
-      <p>Authentication will be added later.</p>
-    </main>
-  )
+import * as React from 'react'
+
+export type SidebarContextProps = {
+  state: 'expanded' | 'collapsed'
+  open: boolean
+  setOpen: (open: boolean) => void
+  openMobile: boolean
+  setOpenMobile: (open: boolean) => void
+  isMobile: boolean
+  toggleSidebar: () => void
 }
+
+export const SidebarContext = React.createContext<SidebarContextProps | null>(
+  null,
+)

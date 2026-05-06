@@ -14,4 +14,4 @@
  * limitations under the License.
  */
 
-export { DashboardLayout } from './DashboardLayout'
+export { Button } from './button'

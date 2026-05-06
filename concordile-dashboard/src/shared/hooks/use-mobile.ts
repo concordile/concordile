@@ -14,11 +14,29 @@
  * limitations under the License.
  */
 
-export function AdminPage() {
-  return (
-    <main>
-      <h1>Admin</h1>
-      <p>Admin area will be added later.</p>
-    </main>
-  )
+import { useSyncExternalStore } from 'react'
+
+const MOBILE_BREAKPOINT = 768
+const MOBILE_QUERY = `(max-width: ${MOBILE_BREAKPOINT - 1}px)`
+
+function getSnapshot() {
+  return window.matchMedia(MOBILE_QUERY).matches
+}
+
+function getServerSnapshot() {
+  return false
+}
+
+function subscribe(callback: () => void) {
+  const mediaQueryList = window.matchMedia(MOBILE_QUERY)
+
+  mediaQueryList.addEventListener('change', callback)
+
+  return () => {
+    mediaQueryList.removeEventListener('change', callback)
+  }
+}
+
+export function useIsMobile() {
+  return useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot)
 }

@@ -14,33 +14,27 @@
  * limitations under the License.
  */
 
-import { Link, Outlet } from 'react-router-dom'
+import { Outlet } from 'react-router-dom'
 
-import { routes } from '@/shared/config/routes'
+import { dashboardSidebarNavItems } from '@/shared/config/dashboard-sidebar'
+import { AppSidebar } from '@/shared/ui/app-sidebar'
+import { SidebarInset, SidebarProvider } from '@/shared/ui/kit/sidebar'
+import { SiteHeader } from '@/shared/ui/site-header'
 
 export function DashboardLayout() {
   return (
-    <div>
-      <aside>
-        <strong>Concordile</strong>
-
-        <nav>
-          <Link to={routes.dashboard}>Dashboard</Link>
-          <Link to={routes.applications}>Applications</Link>
-          <Link to={routes.verifications}>Verifications</Link>
-          <Link to={routes.admin}>Admin</Link>
-        </nav>
-      </aside>
-
-      <section>
-        <header>
-          <span>Dashboard skeleton</span>
-        </header>
-
-        <main>
-          <Outlet />
-        </main>
-      </section>
+    <div className="flex min-h-svh flex-col">
+      <SidebarProvider className="flex min-h-0 flex-1 flex-col">
+        <SiteHeader />
+        <div className="flex min-h-0 flex-1">
+          <AppSidebar navItems={dashboardSidebarNavItems} />
+          <SidebarInset className="flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden">
+            <div className="flex min-h-0 flex-1 flex-col gap-4 overflow-y-auto p-4">
+              <Outlet />
+            </div>
+          </SidebarInset>
+        </div>
+      </SidebarProvider>
     </div>
   )
 }

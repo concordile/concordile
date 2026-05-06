@@ -14,4 +14,11 @@
  * limitations under the License.
  */
 
-export { LoginPage } from './LoginPage'
+export function OverviewPage() {
+  return (
+    <main>
+      <h1>Overview</h1>
+      <p>Overview will be added later.</p>
+    </main>
+  )
+}

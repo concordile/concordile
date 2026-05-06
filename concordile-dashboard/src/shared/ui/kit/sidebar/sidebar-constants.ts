@@ -14,11 +14,12 @@
  * limitations under the License.
  */
 
-export function DashboardPage() {
-  return (
-    <main>
-      <h1>Dashboard</h1>
-      <p>Dashboard summary will be added later.</p>
-    </main>
-  )
-}
+export const SIDEBAR_COOKIE_NAME = 'sidebar_state'
+export const SIDEBAR_COOKIE_MAX_AGE = 60 * 60 * 24 * 7
+export const SIDEBAR_WIDTH = '16rem'
+export const SIDEBAR_WIDTH_MOBILE = '18rem'
+export const SIDEBAR_WIDTH_ICON = '3rem'
+export const SIDEBAR_KEYBOARD_SHORTCUT = 'b'
+
+/** Top offset for fixed desktop sidebar; must match `SiteHeader` row (`p-2` + `size-8` buttons = `h-12`) */
+export const SIDEBAR_DESKTOP_TOP_OFFSET_CLASS = 'top-12'

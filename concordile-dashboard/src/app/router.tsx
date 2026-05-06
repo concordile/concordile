@@ -16,34 +16,23 @@
 
 import { createBrowserRouter } from 'react-router-dom'
 
-import { AuthLayout, DashboardLayout } from '@/app/layouts'
-import { AdminPage } from '@/modules/admin/pages'
+import { DashboardLayout } from '@/app/layouts'
 import {
   ApplicationDetailsPage,
   ApplicationsPage,
 } from '@/modules/applications/pages'
-import { LoginPage } from '@/modules/auth/pages'
-import { DashboardPage } from '@/modules/dashboard/pages'
 import { NotFoundPage } from '@/modules/errors/pages'
+import { OverviewPage } from '@/modules/overview/pages'
 import { VerificationsPage } from '@/modules/verifications/pages'
 import { routes } from '@/shared/config/routes'
 
 export const router = createBrowserRouter([
   {
-    element: <AuthLayout />,
-    children: [
-      {
-        path: routes.login,
-        element: <LoginPage />,
-      },
-    ],
-  },
-  {
     element: <DashboardLayout />,
     children: [
       {
-        path: routes.dashboard,
-        element: <DashboardPage />,
+        path: routes.overview,
+        element: <OverviewPage />,
       },
       {
         path: routes.applications,
@@ -56,10 +45,6 @@ export const router = createBrowserRouter([
       {
         path: routes.verifications,
         element: <VerificationsPage />,
-      },
-      {
-        path: routes.admin,
-        element: <AdminPage />,
       },
       {
         path: '*',

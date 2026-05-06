@@ -14,33 +14,16 @@
  * limitations under the License.
  */
 
-import type { ComponentProps } from 'react'
-
-import { type VariantProps } from 'class-variance-authority'
-import { Slot } from 'radix-ui'
-
 import { cn } from '@/shared/lib/ui-kit-utils'
-import { buttonVariants } from '@/shared/ui-kit/button-variants'
 
-export function Button({
-  className,
-  variant = 'default',
-  size = 'default',
-  asChild = false,
-  ...props
-}: ComponentProps<'button'> &
-  VariantProps<typeof buttonVariants> & {
-    asChild?: boolean
-  }) {
-  const Comp = asChild ? Slot.Root : 'button'
-
+function Skeleton({ className, ...props }: React.ComponentProps<'div'>) {
   return (
-    <Comp
-      data-slot="button"
-      data-variant={variant}
-      data-size={size}
-      className={cn(buttonVariants({ variant, size, className }))}
+    <div
+      data-slot="skeleton"
+      className={cn('animate-pulse rounded-none bg-muted', className)}
       {...props}
     />
   )
 }
+
+export { Skeleton }
