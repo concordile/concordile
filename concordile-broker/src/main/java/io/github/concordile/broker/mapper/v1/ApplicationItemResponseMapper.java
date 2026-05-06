@@ -14,20 +14,19 @@
  * limitations under the License.
  */
 
-package io.github.concordile.broker.service;
+package io.github.concordile.broker.mapper.v1;
 
-import io.github.concordile.broker.domain.ApplicationFilters;
+import io.github.concordile.broker.api.v1.ApplicationItemResponse;
+import io.github.concordile.broker.config.MapStructConfig;
 import io.github.concordile.broker.domain.ApplicationItemView;
-import io.github.concordile.broker.entity.ApplicationEntity;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import io.github.concordile.broker.mapper.ResponseMapper;
+import org.mapstruct.Mapper;
 
-public interface ApplicationService {
+@Mapper(config = MapStructConfig.class)
+public interface ApplicationItemResponseMapper
+        extends ResponseMapper<ApplicationItemView, ApplicationItemResponse> {
 
-    Page<ApplicationItemView> findAll(ApplicationFilters filters, Pageable pageable);
-
-    ApplicationEntity findOrCreate(String groupId, String name);
-
-    ApplicationEntity create(String groupId, String name);
+    @Override
+    ApplicationItemResponse mapDomain2Response(ApplicationItemView domain);
 
 }

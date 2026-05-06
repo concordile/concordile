@@ -16,9 +16,16 @@
 
 package io.github.concordile.broker.service;
 
+import io.github.concordile.broker.domain.ApplicationFilters;
+import io.github.concordile.broker.domain.ApplicationItemView;
 import io.github.concordile.broker.entity.ApplicationEntity;
+import io.github.concordile.broker.repository.ApplicationQueryRepository;
 import io.github.concordile.broker.repository.ApplicationRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,7 +34,27 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 class DefaultApplicationService implements ApplicationService {
 
+    public static final Sort DEFAULT_SORT = Sort.by(
+            Sort.Order.desc("lastActivity"),
+            Sort.Order.asc("name"),
+            Sort.Order.asc("groupId")
+    );
+
     private final ApplicationRepository repository;
+    private final ApplicationQueryRepository queryRepository;
+
+    @Override
+    @Transactional(readOnly = true)
+    public Page<ApplicationItemView> findAll(ApplicationFilters filters, Pageable pageable) {
+        var normalizedPageable = pageable.getSort().isSorted()
+                ? pageable
+                : PageRequest.of(
+                pageable.getPageNumber(),
+                pageable.getPageSize(),
+                DEFAULT_SORT
+        );
+        return queryRepository.findAll(filters, normalizedPageable);
+    }
 
     @Override
     public ApplicationEntity findOrCreate(String groupId, String name) {

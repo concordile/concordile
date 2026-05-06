@@ -14,20 +14,13 @@
  * limitations under the License.
  */
 
-package io.github.concordile.broker.service;
+package io.github.concordile.broker.domain;
 
-import io.github.concordile.broker.domain.ApplicationFilters;
-import io.github.concordile.broker.domain.ApplicationItemView;
-import io.github.concordile.broker.entity.ApplicationEntity;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import org.jspecify.annotations.Nullable;
 
-public interface ApplicationService {
-
-    Page<ApplicationItemView> findAll(ApplicationFilters filters, Pageable pageable);
-
-    ApplicationEntity findOrCreate(String groupId, String name);
-
-    ApplicationEntity create(String groupId, String name);
-
+public record ApplicationFilters(
+        @Nullable String query,
+        @Nullable String verificationStatus,
+        @Nullable String deploymentCheckStatus
+) {
 }
