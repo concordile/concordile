@@ -16,12 +16,17 @@
 
 package io.github.concordile.broker.api.v1;
 
-import java.util.List;
 import java.util.UUID;
 
-public record DeploymentCheckResponse(
+public record DeploymentCheckEvaluationResponse(
         UUID id,
-        DeploymentCheckStatus status,
-        List<DeploymentCheckEvaluationResponse> evaluations
+        ApplicationResponse party,
+        String partyVersion,
+        PartyRole partyRole,
+        ApplicationResponse counterparty,
+        String counterpartyVersion,
+        PartyRole counterpartyRole,
+        DeploymentCheckEvaluationStatus status,
+        String reason
 ) {
 }

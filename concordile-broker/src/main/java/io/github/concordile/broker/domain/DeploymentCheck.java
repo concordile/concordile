@@ -16,10 +16,17 @@
 
 package io.github.concordile.broker.domain;
 
+import java.util.List;
 import java.util.UUID;
 
 public record DeploymentCheck(
         UUID id,
-        DeploymentCheckStatus status
+        DeploymentCheckStatus status,
+        List<DeploymentCheckEvaluation> evaluations
 ) {
+
+    public DeploymentCheck withEvaluations(List<DeploymentCheckEvaluation> evaluations) {
+        return new DeploymentCheck(id, status, evaluations);
+    }
+
 }

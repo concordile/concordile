@@ -18,10 +18,18 @@ package io.github.concordile.broker.service;
 
 import io.github.concordile.broker.entity.ApplicationEntity;
 
+import java.util.Map;
+import java.util.Set;
+import java.util.UUID;
+
 public interface ApplicationService {
 
     ApplicationEntity findOrCreate(String groupId, String name);
 
     ApplicationEntity create(String groupId, String name);
+
+    ApplicationEntity getById(UUID id);
+
+    Map<UUID, ApplicationEntity> getAllById(Set<UUID> ids);
 
 }

@@ -37,6 +37,6 @@ public interface ContractService {
             String name
     );
 
-    List<UUID> findIdsBetweenApps(UUID appIdA, UUID appIdB);
+    List<ContractEntity> findAllBetweenApps(UUID appIdA, UUID appIdB);
 
 }

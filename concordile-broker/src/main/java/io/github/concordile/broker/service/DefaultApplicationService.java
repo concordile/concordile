@@ -17,10 +17,16 @@
 package io.github.concordile.broker.service;
 
 import io.github.concordile.broker.entity.ApplicationEntity;
+import io.github.concordile.broker.exception.EntityNotFoundException;
 import io.github.concordile.broker.repository.ApplicationRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
+import java.util.UUID;
 
 @Service
 @Transactional
@@ -43,6 +49,30 @@ class DefaultApplicationService implements ApplicationService {
                 .name(name)
                 .build();
         return repository.save(entity);
+    }
+
+    @Override
+    public ApplicationEntity getById(UUID id) {
+        return repository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Application not found: " + id));
+    }
+
+    @Override
+    public Map<UUID, ApplicationEntity> getAllById(Set<UUID> ids) {
+        if (ids.isEmpty()) {
+            return Map.of();
+        }
+        var entities = repository.findAllById(ids);
+        var result = new HashMap<UUID, ApplicationEntity>();
+        for (var entity : entities) {
+            result.put(entity.getId(), entity);
+        }
+        for (UUID id : ids) {
+            if (!result.containsKey(id)) {
+                throw new EntityNotFoundException("Application not found: " + id);
+            }
+        }
+        return result;
     }
 
 }

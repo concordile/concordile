@@ -16,17 +16,17 @@
 
 package io.github.concordile.broker.mapper.v1;
 
-import io.github.concordile.broker.api.v1.DeploymentCheckResponse;
+import io.github.concordile.broker.api.v1.DeploymentCheckEvaluationResponse;
 import io.github.concordile.broker.config.MapStructConfig;
-import io.github.concordile.broker.domain.DeploymentCheck;
+import io.github.concordile.broker.domain.DeploymentCheckEvaluation;
 import io.github.concordile.broker.mapper.ResponseMapper;
 import org.mapstruct.Mapper;
 
-@Mapper(config = MapStructConfig.class, uses = DeploymentCheckEvaluationResponseMapper.class)
-public interface DeploymentCheckResponseMapper
-        extends ResponseMapper<DeploymentCheck, DeploymentCheckResponse> {
+@Mapper(config = MapStructConfig.class, uses = ApplicationResponseMapper.class)
+public interface DeploymentCheckEvaluationResponseMapper
+        extends ResponseMapper<DeploymentCheckEvaluation, DeploymentCheckEvaluationResponse> {
 
     @Override
-    DeploymentCheckResponse mapDomain2Response(DeploymentCheck domain);
+    DeploymentCheckEvaluationResponse mapDomain2Response(DeploymentCheckEvaluation domain);
 
 }

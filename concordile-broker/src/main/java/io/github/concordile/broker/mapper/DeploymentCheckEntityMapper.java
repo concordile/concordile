@@ -20,12 +20,15 @@ import io.github.concordile.broker.config.MapStructConfig;
 import io.github.concordile.broker.domain.DeploymentCheck;
 import io.github.concordile.broker.entity.DeploymentCheckEntity;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 
 @Mapper(config = MapStructConfig.class)
 public interface DeploymentCheckEntityMapper
         extends EntityMapper<DeploymentCheckEntity, DeploymentCheck> {
 
     @Override
+    @Mapping(target = "evaluations", ignore = true)
+    @Mapping(target = "withEvaluations", ignore = true)
     DeploymentCheck mapEntity2Domain(DeploymentCheckEntity entity);
 
 }

@@ -36,7 +36,7 @@ public interface ContractRepository
 
     // language=PostgreSQL
     @Query("""
-            select c.id
+            select c.*
             from contracts c
             where c.deleted_at is null
               and c.consumer_id is not null
@@ -45,6 +45,6 @@ public interface ContractRepository
                 or (c.provider_id = :appIdB and c.consumer_id = :appIdA)
               )
             """)
-    List<UUID> findContractIdsBetweenApps(UUID appIdA, UUID appIdB);
+    List<ContractEntity> findAllBetweenApps(UUID appIdA, UUID appIdB);
 
 }
