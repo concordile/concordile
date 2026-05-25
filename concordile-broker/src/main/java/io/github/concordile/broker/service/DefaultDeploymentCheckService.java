@@ -17,15 +17,19 @@
 package io.github.concordile.broker.service;
 
 import io.github.concordile.broker.domain.DeploymentCheck;
+import io.github.concordile.broker.domain.DeploymentCheckEvaluation;
 import io.github.concordile.broker.domain.DeploymentCheckEvaluationStatus;
 import io.github.concordile.broker.domain.DeploymentCheckStatus;
+import io.github.concordile.broker.domain.PartyRole;
 import io.github.concordile.broker.domain.VerificationStatus;
+import io.github.concordile.broker.entity.ContractEntity;
 import io.github.concordile.broker.entity.DeploymentCheckEntity;
 import io.github.concordile.broker.entity.DeploymentCheckEvaluationEntity;
 import io.github.concordile.broker.entity.DeploymentCheckEvaluationResultEntity;
 import io.github.concordile.broker.entity.DeploymentCheckEvaluationResultId;
 import io.github.concordile.broker.entity.DeploymentRecordEntity;
 import io.github.concordile.broker.entity.VerificationResultEntity;
+import io.github.concordile.broker.mapper.ApplicationEntityMapper;
 import io.github.concordile.broker.mapper.DeploymentCheckEntityMapper;
 import io.github.concordile.broker.repository.DeploymentCheckEvaluationRepository;
 import io.github.concordile.broker.repository.DeploymentCheckEvaluationResultRepository;
@@ -35,6 +39,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -58,7 +64,8 @@ class DefaultDeploymentCheckService implements DeploymentCheckService {
     private final DeploymentCheckEvaluationRepository evaluationRepository;
     private final DeploymentCheckEvaluationResultRepository evaluationResultRepository;
 
-    private final DeploymentCheckEntityMapper entityMapper;
+    private final ApplicationEntityMapper applicationEntityMapper;
+    private final DeploymentCheckEntityMapper checkEntityMapper;
 
     private static DeploymentCheckEvaluationStatus evaluateStatus(
             List<UUID> contractIds,
@@ -90,14 +97,34 @@ class DefaultDeploymentCheckService implements DeploymentCheckService {
         return DeploymentCheckEvaluationStatus.PASSED;
     }
 
-    private static DeploymentCheckStatus aggregateCheckStatus(List<PeerOutcome> peerOutcomes) {
-        if (peerOutcomes.stream().anyMatch(o -> o.evaluationStatus() == DeploymentCheckEvaluationStatus.FAILED)) {
+    private static DeploymentCheckStatus aggregateCheckStatus(List<CheckEvaluationOutcome> outcomes) {
+        if (outcomes.stream().anyMatch(o -> o.evaluationStatus() == DeploymentCheckEvaluationStatus.FAILED)) {
             return DeploymentCheckStatus.BLOCKED;
         }
-        if (peerOutcomes.stream().anyMatch(o -> o.evaluationStatus() == DeploymentCheckEvaluationStatus.MISSING)) {
+        if (outcomes.stream().anyMatch(o -> o.evaluationStatus() == DeploymentCheckEvaluationStatus.MISSING)) {
             return DeploymentCheckStatus.UNKNOWN;
         }
         return DeploymentCheckStatus.READY;
+    }
+
+    private static PartyRole roleOf(UUID appId, List<ContractEntity> contracts) {
+        var isConsumer = contracts.stream()
+                .anyMatch(contract -> appId.equals(contract.getConsumerId()));
+
+        var isProvider = contracts.stream()
+                .anyMatch(contract -> appId.equals(contract.getProviderId()));
+
+        if (isConsumer && isProvider) {
+            return PartyRole.BOTH;
+        }
+        if (isConsumer) {
+            return PartyRole.CONSUMER;
+        }
+        if (isProvider) {
+            return PartyRole.PROVIDER;
+        }
+
+        throw new IllegalArgumentException("Application is not part of these contracts");
     }
 
     private static String reasonFor(DeploymentCheckEvaluationStatus status) {
@@ -115,39 +142,51 @@ class DefaultDeploymentCheckService implements DeploymentCheckService {
         var application = command.application();
         var app = applicationService.findOrCreate(application.groupId(), application.name());
 
-        var outcomes = evaluatePeers(target.id(), app.getId(), command.version());
+        var outcomes = evaluateCounterparties(target.id(), app.getId(), command.version());
         var status = aggregateCheckStatus(outcomes);
 
         var savedCheck = saveCheck(target.id(), app.getId(), command.version(), status);
-        saveEvaluations(savedCheck.getId(), app.getId(), command.version(), outcomes);
+        var evaluations = saveEvaluations(savedCheck.getId(), app.getId(), command.version(), outcomes);
 
-        return entityMapper.mapEntity2Domain(savedCheck);
+        return checkEntityMapper.mapEntity2Domain(savedCheck).withEvaluations(evaluations);
     }
 
-    private List<PeerOutcome> evaluatePeers(UUID targetId, UUID appId, String appVersion) {
+    private List<CheckEvaluationOutcome> evaluateCounterparties(UUID targetId, UUID appId, String appVersion) {
         return deploymentRecordService.findAllActiveByTargetId(targetId).stream()
                 .filter(record -> !record.getAppId().equals(appId))
-                .map(record -> evaluatePeer(appId, appVersion, record))
+                .map(record -> evaluateCounterparty(appId, appVersion, record))
                 .flatMap(Optional::stream)
                 .toList();
     }
 
-    private Optional<PeerOutcome> evaluatePeer(UUID appId, String appVersion, DeploymentRecordEntity peer) {
-        var contractIds = contractService.findIdsBetweenApps(appId, peer.getAppId());
-        if (contractIds.isEmpty()) {
+    private Optional<CheckEvaluationOutcome> evaluateCounterparty(
+            UUID appId,
+            String appVersion,
+            DeploymentRecordEntity counterparty
+    ) {
+        var contracts = contractService.findAllBetweenApps(appId, counterparty.getAppId());
+        if (contracts.isEmpty()) {
             return Optional.empty();
         }
+        var contractIds = contracts.stream().map(ContractEntity::getId).toList();
 
         var results = verificationResultService.findLatestPerContractForPartyVersions(
                 appId,
                 appVersion,
-                peer.getAppId(),
-                peer.getAppVersion()
+                counterparty.getAppId(),
+                counterparty.getAppVersion()
         );
 
         var status = evaluateStatus(contractIds, results);
 
-        return Optional.of(new PeerOutcome(peer, status, results));
+        return Optional.of(new CheckEvaluationOutcome(
+                status,
+                results,
+                roleOf(appId, contracts),
+                roleOf(counterparty.getAppId(), contracts),
+                counterparty.getAppId(),
+                counterparty.getAppVersion()
+        ));
     }
 
     private DeploymentCheckEntity saveCheck(
@@ -165,28 +204,49 @@ class DefaultDeploymentCheckService implements DeploymentCheckService {
                 .build());
     }
 
-    private void saveEvaluations(
+    private List<DeploymentCheckEvaluation> saveEvaluations(
             UUID checkId,
-            UUID appId,
-            String appVersion,
-            List<PeerOutcome> outcomes
+            UUID checkedAppId,
+            String checkedVersion,
+            List<CheckEvaluationOutcome> outcomes
     ) {
+        var appIds = new HashSet<UUID>();
+        appIds.add(checkedAppId);
+        for (var outcome : outcomes) {
+            appIds.add(outcome.counterpartyId());
+        }
+        var appsById = applicationService.getAllById(appIds);
+
+        var evaluations = new ArrayList<DeploymentCheckEvaluation>();
         for (var outcome : outcomes) {
             var status = outcome.evaluationStatus();
 
             var savedEval = evaluationRepository.save(DeploymentCheckEvaluationEntity.builder()
                     .checkId(checkId)
-                    .partyId(appId)
-                    .partyVersion(appVersion)
-                    .counterpartyId(outcome.deployment().getAppId())
-                    .counterpartyVersion(outcome.deployment().getAppVersion())
+                    .partyId(checkedAppId)
+                    .partyVersion(checkedVersion)
+                    .counterpartyId(outcome.counterpartyId())
+                    .counterpartyVersion(outcome.counterpartyVersion())
                     .status(status.name())
                     .reason(reasonFor(status))
                     .context(Map.of())
                     .build());
 
             saveEvaluationResults(savedEval.getId(), outcome.verificationResults());
+
+            evaluations.add(new DeploymentCheckEvaluation(
+                    savedEval.getId(),
+                    applicationEntityMapper.mapEntity2Domain(appsById.get(checkedAppId)),
+                    checkedVersion,
+                    outcome.partyRole(),
+                    applicationEntityMapper.mapEntity2Domain(appsById.get(outcome.counterpartyId())),
+                    outcome.counterpartyVersion(),
+                    outcome.counterpartyRole(),
+                    status,
+                    savedEval.getReason()
+            ));
         }
+        return evaluations;
     }
 
     private void saveEvaluationResults(UUID evaluationId, List<VerificationResultEntity> results) {
@@ -201,10 +261,13 @@ class DefaultDeploymentCheckService implements DeploymentCheckService {
         }
     }
 
-    private record PeerOutcome(
-            DeploymentRecordEntity deployment,
+    private record CheckEvaluationOutcome(
             DeploymentCheckEvaluationStatus evaluationStatus,
-            List<VerificationResultEntity> verificationResults
+            List<VerificationResultEntity> verificationResults,
+            PartyRole partyRole,
+            PartyRole counterpartyRole,
+            UUID counterpartyId,
+            String counterpartyVersion
     ) {
     }
 

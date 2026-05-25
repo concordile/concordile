@@ -71,8 +71,8 @@ class DefaultContractService implements ContractService {
     }
 
     @Override
-    public List<UUID> findIdsBetweenApps(UUID appIdA, UUID appIdB) {
-        return repository.findContractIdsBetweenApps(appIdA, appIdB);
+    public List<ContractEntity> findAllBetweenApps(UUID appIdA, UUID appIdB) {
+        return repository.findAllBetweenApps(appIdA, appIdB);
     }
 
 }

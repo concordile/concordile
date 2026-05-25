@@ -14,14 +14,19 @@
  * limitations under the License.
  */
 
-package io.github.concordile.broker.api.v1;
+package io.github.concordile.broker.domain;
 
-import java.util.List;
 import java.util.UUID;
 
-public record DeploymentCheckResponse(
+public record DeploymentCheckEvaluation(
         UUID id,
-        DeploymentCheckStatus status,
-        List<DeploymentCheckEvaluationResponse> evaluations
+        Application party,
+        String partyVersion,
+        PartyRole partyRole,
+        Application counterparty,
+        String counterpartyVersion,
+        PartyRole counterpartyRole,
+        DeploymentCheckEvaluationStatus status,
+        String reason
 ) {
 }

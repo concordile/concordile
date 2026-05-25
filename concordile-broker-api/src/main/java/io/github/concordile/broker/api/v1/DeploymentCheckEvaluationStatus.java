@@ -16,12 +16,11 @@
 
 package io.github.concordile.broker.api.v1;
 
-import java.util.List;
-import java.util.UUID;
+public enum DeploymentCheckEvaluationStatus {
 
-public record DeploymentCheckResponse(
-        UUID id,
-        DeploymentCheckStatus status,
-        List<DeploymentCheckEvaluationResponse> evaluations
-) {
+    PASSED,
+    FAILED,
+    MISSING,
+    IGNORED,
+
 }

@@ -14,19 +14,18 @@
  * limitations under the License.
  */
 
-package io.github.concordile.broker.mapper.v1;
+package io.github.concordile.broker.mapper;
 
-import io.github.concordile.broker.api.v1.DeploymentCheckResponse;
 import io.github.concordile.broker.config.MapStructConfig;
-import io.github.concordile.broker.domain.DeploymentCheck;
-import io.github.concordile.broker.mapper.ResponseMapper;
+import io.github.concordile.broker.domain.Application;
+import io.github.concordile.broker.entity.ApplicationEntity;
 import org.mapstruct.Mapper;
 
-@Mapper(config = MapStructConfig.class, uses = DeploymentCheckEvaluationResponseMapper.class)
-public interface DeploymentCheckResponseMapper
-        extends ResponseMapper<DeploymentCheck, DeploymentCheckResponse> {
+@Mapper(config = MapStructConfig.class)
+public interface ApplicationEntityMapper
+        extends EntityMapper<ApplicationEntity, Application> {
 
     @Override
-    DeploymentCheckResponse mapDomain2Response(DeploymentCheck domain);
+    Application mapEntity2Domain(ApplicationEntity entity);
 
 }
